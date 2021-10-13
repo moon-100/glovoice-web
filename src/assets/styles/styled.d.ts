@@ -16,6 +16,9 @@ declare module 'styled-components' {
       paleBlue: string;
       stone: string;
       white: string;
+      yellow: string;
+      red: string;
+      green: string;
     };
   }
 }

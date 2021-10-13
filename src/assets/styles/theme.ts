@@ -8,12 +8,15 @@ const theme: DefaultTheme = {
     violet: '#A29DFC',
     skyblue: '#6AB4F7',
     mint: '#50E2BF',
-    black: '#232628',
+    black: '#1c0201',
     darkGray: '#3D4044',
     gray: '#77828B',
     paleBlue: '#BECBD8',
     stone: '#EEEEEE',
     white: '#FFFFFF',
+    yellow: '#F4AE3D',
+    red: '#ee4f41',
+    green: '#42a621',
   },
 };
 
