@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ArrowIosDownwardOutline } from '@styled-icons/evaicons-outline/ArrowIosDownwardOutline';
 
-const Filter = () => {
+const ClientFilter = () => {
   const [activeFilterSel, setActiveFilterSel] = useState(false);
   const [activePagesSel, setActivePagesSel] = useState(false);
   const [filterConditions, setFilterConditions] = useState('recent');
@@ -131,4 +131,4 @@ const ArrowDownIcon = styled(ArrowIosDownwardOutline)`
   margin: 0 10px;
 `;
 
-export default Filter;
+export default ClientFilter;

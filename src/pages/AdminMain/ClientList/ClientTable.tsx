@@ -6,7 +6,7 @@ const ClientTable = () => {
   return (
     <ClientBox>
       <ClientInfoHeader>
-        <ClientNum>SEQ</ClientNum>
+        <ClientNum>No.</ClientNum>
         <ClientId>Client Id</ClientId>
         <ClientName>Client Name</ClientName>
         <ClientDesc>Client Description</ClientDesc>

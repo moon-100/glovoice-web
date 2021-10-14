@@ -1,57 +1,53 @@
-import Nav from 'components/Nav/Nav';
 import React from 'react';
 import styled from 'styled-components';
 import { UnlockOutline } from '@styled-icons/evaicons-outline/UnlockOutline';
 
 const ClientDetail = () => {
   return (
-    <>
-      <Nav />
-      <Container>
-        <Header>Client Information</Header>
-        <InfoContainer>
-          <IdContainer>
-            <IdHeader>Email ID</IdHeader>
-            <IdInput placeholder="Please enter a combination of at least 6 digits of English and numbers." />
-            <IdDuplCheckBtn>Duplicate Check</IdDuplCheckBtn>
-            <IdDuplCheckAlert>There’s an existing ID.</IdDuplCheckAlert>
-          </IdContainer>
-          <NameContainer>
-            <NameHeader>Name</NameHeader>
-            <NameInput placeholder="Please enter client’s name." />
-            <NameDuplCheckAlert>This field is required.</NameDuplCheckAlert>
-          </NameContainer>
-          <RemarkContainer>
-            <RemarkHeader>Remarks</RemarkHeader>
-            <RemarkInputBox>
-              <RemarkInput placeholder="Please enter remarks." />
-              <RemarkInputLength>(0/1000)</RemarkInputLength>
-            </RemarkInputBox>
-          </RemarkContainer>
-          <RegDateContainer>
-            <RegDateHeader>Registered date</RegDateHeader>
-            <RegDateText>-</RegDateText>
-          </RegDateContainer>
-          <PwContainer>
-            <PwHeader>Password</PwHeader>
-            <PwText>
-              The password is encrypted. The initial password is *1234!
-            </PwText>
-            <PwInitBtn>
-              Initialize password
-              <LockIcon />
-            </PwInitBtn>
-          </PwContainer>
-        </InfoContainer>
-        <BtnContainer>
-          <GotoListBtn>List</GotoListBtn>
-          <DelSaveBtn>
-            <DelBtn>Client Delete</DelBtn>
-            <SaveBtn>Save</SaveBtn>
-          </DelSaveBtn>
-        </BtnContainer>
-      </Container>
-    </>
+    <Container>
+      <Header>Client Information</Header>
+      <InfoContainer>
+        <IdContainer>
+          <IdHeader>Email ID</IdHeader>
+          <IdInput placeholder="Please enter a combination of at least 6 digits of English and numbers." />
+          <IdDuplCheckBtn>Duplicate Check</IdDuplCheckBtn>
+          <IdDuplCheckAlert>There’s an existing ID.</IdDuplCheckAlert>
+        </IdContainer>
+        <NameContainer>
+          <NameHeader>Name</NameHeader>
+          <NameInput placeholder="Please enter client’s name." />
+          <NameDuplCheckAlert>This field is required.</NameDuplCheckAlert>
+        </NameContainer>
+        <RemarkContainer>
+          <RemarkHeader>Remarks</RemarkHeader>
+          <RemarkInputBox>
+            <RemarkInput placeholder="Please enter remarks." />
+            <RemarkInputLength>(0/1000)</RemarkInputLength>
+          </RemarkInputBox>
+        </RemarkContainer>
+        <RegDateContainer>
+          <RegDateHeader>Registered date</RegDateHeader>
+          <RegDateText>-</RegDateText>
+        </RegDateContainer>
+        <PwContainer>
+          <PwHeader>Password</PwHeader>
+          <PwText>
+            The password is encrypted. The initial password is *1234!
+          </PwText>
+          <PwInitBtn>
+            Initialize password
+            <LockIcon />
+          </PwInitBtn>
+        </PwContainer>
+      </InfoContainer>
+      <BtnContainer>
+        <GotoListBtn>List</GotoListBtn>
+        <DelSaveBtn>
+          <DelBtn>Client Delete</DelBtn>
+          <SaveBtn>Save</SaveBtn>
+        </DelSaveBtn>
+      </BtnContainer>
+    </Container>
   );
 };
 
