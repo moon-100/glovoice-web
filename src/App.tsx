@@ -1,8 +1,8 @@
 import React from 'react';
-import Nav from 'components/Nav/Nav';
+import AdminSingin from 'pages/AdminSignin/AdminSingin';
 
 const App = () => {
-  return <Nav />;
+  return <AdminSingin />;
 };
 
 export default App;

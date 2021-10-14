@@ -15,9 +15,13 @@ declare module 'styled-components' {
       paleBlue: string;
       stone: string;
       white: string;
+<<<<<<< HEAD
       yellow: string;
       red: string;
       green: string;
+=======
+      blue: string;
+>>>>>>> feature/adminLoginPage
     };
   }
 }
