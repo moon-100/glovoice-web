@@ -5,49 +5,68 @@ const AdminSingin = () => {
   return (
     <Container>
       <ContentFrame>
-        <Header>Welcome to Audio Crowd Sourcing</Header>
+        <Logo alt="Logo" src="/images/logo_glo_voice.png" />
         <InputContainer>
-          <InputContent type="text" placeholder="Email" />
-          <InputContent type="password" placeholder="password" />
+          <InputText>Username</InputText>
+          <InputBox type="text" placeholder="Your Email" />
+          <InputText>Password</InputText>
+          <InputBox type="password" placeholder="Your Password" />
         </InputContainer>
-        <SigninBtn>Login</SigninBtn>
+        <SigninBtn>LOG IN</SigninBtn>
       </ContentFrame>
     </Container>
   );
 };
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
 `;
+
 const ContentFrame = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
-const Header = styled.h1``;
+
+const Logo = styled.img`
+  width: 150px;
+  margin-bottom: 20px;
+`;
+
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 60px;
+  margin-top: 15px;
 `;
-const InputContent = styled.input`
-  width: 600px;
-  height: 40px;
-  margin-left: 10px;
-  border: none;
-  border-bottom: 1px solid rgb(236, 236, 236);
-  outline: none;
+
+const InputText = styled.div`
+  margin-top: 20px;
+  font-size: 15px;
+  font-weight: bold;
 `;
-const SigninBtn = styled.button`
-  width: 300px;
-  height: 40px;
-  margin-top: 60px;
+
+const InputBox = styled.input`
+  width: 350px;
+  height: 45px;
+  margin: 10px 0;
+  padding-left: 20px;
+  border: 2px solid rgb(159, 183, 246);
   border-radius: 5px;
+  font-size: 12px;
+`;
+
+const SigninBtn = styled.button`
+  width: 250px;
+  height: 40px;
+  margin-top: 20px;
+  border-radius: 20px;
   color: white;
-  background-color: rgb(244, 180, 79);
+  background-color: ${({ theme }) => theme.color.blue};
   border: none;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `;
+
 export default AdminSingin;

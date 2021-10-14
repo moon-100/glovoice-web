@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminSingin from 'pages/adminSignin/AdminSingin';
+import AdminSingin from 'pages/AdminSignin/AdminSingin';
 
 const App = () => {
   return <AdminSingin />;
