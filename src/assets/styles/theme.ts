@@ -14,12 +14,18 @@ const theme: DefaultTheme = {
     stone: '#EEEEEE',
     white: '#FFFFFF',
 <<<<<<< HEAD
+<<<<<<< HEAD
     yellow: '#F4AE3D',
     red: '#ee4f41',
     green: '#42a621',
 =======
     blue: '#305fee',
 >>>>>>> feature/adminLoginPage
+=======
+    yellow: '#F4AE3D',
+    red: '#ee4f41',
+    green: '#42a621',
+>>>>>>> feature/clientManagementPage
   },
 };
 export { theme };
