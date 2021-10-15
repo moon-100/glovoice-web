@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router';
 import { SIGN_IN } from 'config';
 
 const AdminSignin = () => {
@@ -7,6 +8,7 @@ const AdminSignin = () => {
   const [password, setPassword] = useState('');
 
   const signin = () => {
+    const history = useHistory();
     fetch(`${SIGN_IN}`, {
       method: 'POST',
       body: JSON.stringify({
@@ -18,8 +20,9 @@ const AdminSignin = () => {
       .then((res) => {
         if (res.token) {
           localStorage.setItem('admin-token', res.token);
+          history.push('/main');
         } else {
-          alert(`이메일, 비밀번호를 다시 입력해 주세요.`);
+          alert(`Please check your account.`);
         }
       });
   };
