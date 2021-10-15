@@ -1,18 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router';
+import { SIGN_IN } from 'config';
 
-const AdminSingin = () => {
+const AdminSignin = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const signin = () => {
+    const history = useHistory();
+    fetch(`${SIGN_IN}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        email: { email },
+        password: { password },
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.token) {
+          localStorage.setItem('admin-token', res.token);
+          history.push('/main');
+        } else {
+          alert(`Please check your account.`);
+        }
+      });
+  };
+
   return (
     <Container>
       <ContentFrame>
         <Logo alt="Logo" src="/images/logo_glo_voice.png" />
         <InputContainer>
           <InputText>Username</InputText>
-          <InputBox type="text" placeholder="Your Email" />
+          <InputBox
+            type="text"
+            placeholder="Your Email"
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
           <InputText>Password</InputText>
-          <InputBox type="password" placeholder="Your Password" />
+          <InputBox
+            type="password"
+            placeholder="Your Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
         </InputContainer>
-        <SigninBtn>LOG IN</SigninBtn>
+        <SigninBtn onClick={signin}>LOG IN</SigninBtn>
       </ContentFrame>
     </Container>
   );
@@ -69,4 +106,4 @@ const SigninBtn = styled.button`
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `;
 
-export default AdminSingin;
+export default AdminSignin;
