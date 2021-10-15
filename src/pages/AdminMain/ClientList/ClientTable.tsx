@@ -1,39 +1,70 @@
 import React from 'react';
 import styled from 'styled-components';
-import ClientTableInfo from './ClientTableInfo';
+import PwInitBtn from 'components/Button/PwInitBtn';
+import DetailBtn from 'components/Button/DetailBtn';
+import DeleteBtn from 'components/Button/DeleteBtn';
 
-const ClientTable = () => {
+interface Iprops {
+  client: {
+    id: string | number;
+    loginId: string;
+    clientName: string;
+    remarks?: string;
+    pwInit?: string;
+    dateOfCreated?: string;
+    dateOfUpdated?: string;
+    password?: string;
+    role?: string;
+    Edit?: string;
+    Delete?: string;
+  };
+  setClientId: React.Dispatch<React.SetStateAction<number>>;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const ClientTable = ({ client, setClientId, setPage }: Iprops) => {
   return (
-    <ClientBox>
-      <ClientInfoHeader>
-        <ClientNum>No.</ClientNum>
-        <ClientId>Client Id</ClientId>
-        <ClientName>Client Name</ClientName>
-        <ClientDesc>Client Description</ClientDesc>
-        <ClientPasswordInit>Password Init</ClientPasswordInit>
-        <ClientRegDate>Client Regist Date</ClientRegDate>
-        <ClientEdit>Client Edit</ClientEdit>
-        <ClientDelete>Client Delete</ClientDelete>
-      </ClientInfoHeader>
-      <ClientTableInfo />
-    </ClientBox>
+    <>
+      <Num>{client.id}</Num>
+      <Id>{client.loginId}</Id>
+      <Name>{client.clientName}</Name>
+      <Desc>{typeof client.remarks === 'string' ? client.remarks : '-'}</Desc>
+      <PasswordInit>
+        {typeof client.id === 'number' ? (
+          <PwInitBtn id={client.id} />
+        ) : (
+          client.pwInit
+        )}
+      </PasswordInit>
+      <RegDate>
+        {typeof client.dateOfCreated === 'string'
+          ? client.dateOfCreated.substr(0, 10)
+          : '-'}
+      </RegDate>
+      <Edit>
+        {typeof client.id === 'number' ? (
+          <DetailBtn
+            id={client.id}
+            page="clientDetail"
+            setId={setClientId}
+            setPage={setPage}
+          />
+        ) : (
+          client.Edit
+        )}
+      </Edit>
+      <Delete>
+        {typeof client.id === 'number' ? (
+          <DeleteBtn id={client.id} />
+        ) : (
+          client.Delete
+        )}
+      </Delete>
+    </>
   );
 };
 
-const ClientBox = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ClientInfoHeader = styled.ul`
-  display: flex;
-  padding: 20px 10px 10px 10px;
-  border-bottom: 2px solid rgb(220, 220, 220);
-  font-size: 15px;
-  font-weight: bold;
-`;
-
-const ClientNum = styled.li`
+const Num = styled.li`
   width: 5%;
   margin-right: 15px;
   text-align: center;
@@ -41,46 +72,46 @@ const ClientNum = styled.li`
   text-overflow: ellipsis;
 `;
 
-const ClientId = styled.li`
+const Id = styled.li`
   width: 10%;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const ClientName = styled.li`
+const Name = styled.li`
   width: 10%;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const ClientDesc = styled.li`
+const Desc = styled.li`
   width: 30%;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const ClientPasswordInit = styled.li`
+const PasswordInit = styled.li`
   width: 10%;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const ClientRegDate = styled.li`
+const RegDate = styled.li`
   width: 15%;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const ClientEdit = styled.li`
+const Edit = styled.li`
   width: 10%;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const ClientDelete = styled.li`
+const Delete = styled.li`
   width: 10%;
   text-align: center;
   overflow: hidden;

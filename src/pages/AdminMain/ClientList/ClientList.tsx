@@ -1,10 +1,71 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { SearchAlt2 } from '@styled-icons/boxicons-regular/SearchAlt2';
-import ClientFilter from './ClientFilter';
+import FilterBtn from 'components/Filter/FilterBtn';
 import ClientTable from './ClientTable';
 
-const ClientList = () => {
+// 공용 컴포넌트 사용을 위한 상수데이터
+const clientTableHeader = {
+  id: `No.`,
+  loginId: `Client Id`,
+  clientName: `Client Name`,
+  remarks: `Client Description`,
+  pwInit: `Password Init`,
+  dateOfCreated: `Client Regist Date`,
+  Edit: `Client Edit`,
+  Delete: `Client Delete`,
+};
+
+// filter 종류
+interface conditionsType {
+  [key: string]: string;
+  recent: string;
+  old: string;
+}
+
+const conditions: conditionsType = {
+  recent: `By recent registered date`,
+  old: `By old registered date`,
+};
+
+interface pagesType {
+  [key: string]: number;
+  '10': number;
+  '15': number;
+  '20': number;
+  '30': number;
+  '50': number;
+}
+
+const pages: pagesType = { '10': 10, '15': 15, '20': 20, '30': 30, '50': 50 };
+
+interface Iprops {
+  setClientId: React.Dispatch<React.SetStateAction<number>>;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const ClientList = ({ setClientId, setPage }: Iprops) => {
+  const [clientRegistFilter, setCilentRegistFilter] = useState('recent');
+  const [clientPagesFilter, setClientPagesFilter] = useState('15');
+  const [clientList, setClientList] = useState([
+    {
+      id: '',
+      loginId: '',
+      clientName: '',
+      remarks: '',
+      pwInit: '',
+      dateOfCreated: '',
+      Edit: '',
+      Delete: '',
+    },
+  ]);
+
+  useEffect(() => {
+    fetch('/data/clientList.json')
+      .then((res) => res.json())
+      .then((res) => setClientList(res));
+  }, []);
+
   return (
     <Container>
       <NoticeBox>
@@ -12,7 +73,13 @@ const ClientList = () => {
           <NoticeText>- You can register or delete client account.</NoticeText>
           <NoticeText>- Initial password is *1234!</NoticeText>
         </NoticeTextBox>
-        <NewClientBtn>Register Client</NewClientBtn>
+        <NewClientBtn
+          onClick={() => {
+            setPage('newClient');
+          }}
+        >
+          Register Client
+        </NewClientBtn>
       </NoticeBox>
       <SearchBox>
         <SearchTextBox>
@@ -26,16 +93,48 @@ const ClientList = () => {
           <SearchIcon />
         </SearchInputBox>
       </SearchBox>
-      <ClientFilter />
-      <ClientTable />
+      <FilterContainer>
+        <FilterBtn
+          selectedFilter={clientRegistFilter}
+          conditions={conditions}
+          widthValue={210}
+          setFilter={setCilentRegistFilter}
+        />
+        <FilterBtn
+          selectedFilter={clientPagesFilter}
+          conditions={pages}
+          widthValue={30}
+          setFilter={setClientPagesFilter}
+        />
+      </FilterContainer>
+      <TableContainer>
+        <TableHeader>
+          <ClientTable
+            client={clientTableHeader}
+            setClientId={setClientId}
+            setPage={setPage}
+          />
+        </TableHeader>
+        {clientList &&
+          clientList.map((client) => {
+            return (
+              <TableContents key={client.id}>
+                <ClientTable
+                  client={client}
+                  setClientId={setClientId}
+                  setPage={setPage}
+                />
+              </TableContents>
+            );
+          })}
+      </TableContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
-  margin-left: 200px;
+  margin: 60px 0 0 200px;
   padding: 20px 10px 0px 20px;
-  min-height: 100vh;
 `;
 
 const NoticeBox = styled.div`
@@ -97,6 +196,31 @@ const SearchInput = styled.input`
   height: 35px;
   padding-left: 10px;
   border: 1px solid rgb(220, 220, 220);
+`;
+
+const FilterContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const TableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TableHeader = styled.ul`
+  display: flex;
+  align-items: center;
+  padding: 20px 10px 10px 10px;
+  border-bottom: 2px solid rgb(220, 220, 220);
+  font-size: 15px;
+  font-weight: bold;
+`;
+
+const TableContents = styled.ul`
+  display: flex;
+  align-items: center;
+  padding: 10px;
 `;
 
 const SearchIcon = styled(SearchAlt2)`
