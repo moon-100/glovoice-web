@@ -1,50 +1,174 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { UnlockOutline } from '@styled-icons/evaicons-outline/UnlockOutline';
+import { DELETE_CLIENT, PASSWORD_INIT, SIGN_UP } from 'config';
 
-const ClientDetail = () => {
+interface Iprops {
+  clientId: number;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+  page: boolean;
+}
+
+const ClientDetail = ({ clientId, setPage, page }: Iprops) => {
+  const [remarkLength, setRemarkLength] = useState(0);
+  const [loginId, setLoginId] = useState('');
+  const [clientName, setClientName] = useState('');
+  const [remarks, setRemarks] = useState('');
+  const [clientDetail, setClientDetail] = useState({
+    id: 1,
+    loginId: '',
+    clientName: '',
+    remarks: '',
+    dateOfCreated: '',
+    dateOfUpdated: '',
+    password: '',
+    role: '',
+  });
+
+  useEffect(() => {
+    fetch(`/data/clientList${clientId}.json`)
+      .then((res) => res.json())
+      .then((res) => {
+        setClientDetail(res);
+      });
+  }, [clientId]);
+
+  const deleteClient = () => {
+    fetch(`${DELETE_CLIENT}/:${clientId}`)
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  };
+
+  const passwordInit = () => {
+    fetch(`${PASSWORD_INIT}`, {
+      method: 'POST',
+      body: JSON.stringify({ id: { clientId } }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  };
+
+  const newClient = () => {
+    fetch(`${SIGN_UP}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        loginId: { loginId },
+        clientName: { clientName },
+        remarks: { remarks },
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  };
+
   return (
     <Container>
       <Header>Client Information</Header>
       <InfoContainer>
         <IdContainer>
           <IdHeader>Email ID</IdHeader>
-          <IdInput placeholder="Please enter a combination of at least 6 digits of English and numbers." />
-          <IdDuplCheckBtn>Duplicate Check</IdDuplCheckBtn>
-          <IdDuplCheckAlert>There’s an existing ID.</IdDuplCheckAlert>
+          {page ? (
+            <IdInput
+              placeholder="Please enter a combination of at least 6 digits of English and numbers."
+              onChange={(e) => setLoginId(e.target.value)}
+            />
+          ) : (
+            <IdInput value={clientDetail.loginId} disabled />
+          )}
+          {page && (
+            <>
+              <IdDuplCheckBtn>Duplicate Check</IdDuplCheckBtn>
+              <IdDuplCheckAlert>There’s an existing ID.</IdDuplCheckAlert>
+            </>
+          )}
         </IdContainer>
         <NameContainer>
           <NameHeader>Name</NameHeader>
-          <NameInput placeholder="Please enter client’s name." />
+          {page ? (
+            <NameInput
+              placeholder="Please enter client’s name."
+              type="text"
+              onChange={(e) => setClientName(e.target.value)}
+            />
+          ) : (
+            <NameInput
+              placeholder="Please enter client’s name."
+              type="text"
+              onChange={(e) => setClientName(e.target.value)}
+              defaultValue={clientDetail.clientName}
+            />
+          )}
+
           <NameDuplCheckAlert>This field is required.</NameDuplCheckAlert>
         </NameContainer>
         <RemarkContainer>
           <RemarkHeader>Remarks</RemarkHeader>
           <RemarkInputBox>
-            <RemarkInput placeholder="Please enter remarks." />
-            <RemarkInputLength>(0/1000)</RemarkInputLength>
+            {page ? (
+              <RemarkInput
+                placeholder="Please enter remarks."
+                onChange={(e) => {
+                  setRemarkLength(e.target.value.length);
+                  setRemarks(e.target.value);
+                }}
+                maxLength={1000}
+              />
+            ) : (
+              <RemarkInput
+                placeholder="Please enter remarks."
+                defaultValue={clientDetail.remarks}
+                onChange={(e) => {
+                  setRemarkLength(e.target.value.length);
+                  setRemarks(e.target.value);
+                }}
+                maxLength={1000}
+              />
+            )}
+            <RemarkInputLength>({remarkLength}/1000)</RemarkInputLength>
           </RemarkInputBox>
         </RemarkContainer>
         <RegDateContainer>
           <RegDateHeader>Registered date</RegDateHeader>
-          <RegDateText>-</RegDateText>
+          <RegDateText>
+            {page ? '-' : `${clientDetail.dateOfCreated.substr(0, 10)}`}
+          </RegDateText>
         </RegDateContainer>
         <PwContainer>
           <PwHeader>Password</PwHeader>
           <PwText>
             The password is encrypted. The initial password is *1234!
           </PwText>
-          <PwInitBtn>
-            Initialize password
-            <LockIcon />
-          </PwInitBtn>
+          {!page && (
+            <PwInitBtn onClick={() => passwordInit()}>
+              Initialize password
+              <LockIcon />
+            </PwInitBtn>
+          )}
         </PwContainer>
       </InfoContainer>
       <BtnContainer>
-        <GotoListBtn>List</GotoListBtn>
+        <GotoListBtn
+          onClick={() => {
+            setPage('clientList');
+          }}
+        >
+          List
+        </GotoListBtn>
         <DelSaveBtn>
-          <DelBtn>Client Delete</DelBtn>
-          <SaveBtn>Save</SaveBtn>
+          {!page && (
+            <DelBtn
+              onClick={() => {
+                deleteClient();
+              }}
+            >
+              Client Delete
+            </DelBtn>
+          )}
+          {page ? (
+            <SaveBtn onClick={() => newClient()}>Save</SaveBtn>
+          ) : (
+            <SaveBtn>Save</SaveBtn>
+          )}
         </DelSaveBtn>
       </BtnContainer>
     </Container>
@@ -52,7 +176,7 @@ const ClientDetail = () => {
 };
 
 const Container = styled.div`
-  margin-left: 200px;
+  margin: 60px 0 0 200px;
   padding: 10px 20px 20px 20px;
 `;
 
@@ -78,6 +202,7 @@ const IdContainer = styled.div`
 const IdHeader = styled.div`
   display: flex;
   align-items: center;
+  min-width: 150px;
   width: 150px;
   height: 100%;
   padding-left: 10px;
@@ -121,6 +246,7 @@ const NameContainer = styled.div`
 const NameHeader = styled.div`
   display: flex;
   align-items: center;
+  min-width: 150px;
   width: 150px;
   height: 100%;
   padding-left: 10px;
@@ -151,6 +277,7 @@ const RemarkContainer = styled.div`
 
 const RemarkHeader = styled.div`
   display: flex;
+  min-width: 150px;
   width: 150px;
   height: 100%;
   padding-top: 13px;
@@ -190,6 +317,7 @@ const RegDateContainer = styled.div`
 const RegDateHeader = styled.div`
   display: flex;
   align-items: center;
+  min-width: 150px;
   width: 150px;
   height: 100%;
   padding-left: 10px;
@@ -213,6 +341,7 @@ const PwContainer = styled.div`
 const PwHeader = styled.div`
   display: flex;
   align-items: center;
+  min-width: 150px;
   width: 150px;
   height: 100%;
   padding-left: 10px;

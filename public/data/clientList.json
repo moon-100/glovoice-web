@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "loginId": "cho@glocalizeinc.com",
+    "clientName": "choseonghwan",
+    "remarks": "choseonghwan is client",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "dateOfUpdated": "2021-10-19T13:00:54.136Z",
+    "password": "*1234!",
+    "role": "ADMIN"
+  },
+  {
+    "id": 2,
+    "loginId": "hope@glocalizeinc.com",
+    "clientName": "kimjangho",
+    "remarks": "kimjangho is client",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "dateOfUpdated": "2021-10-19T13:02:08.342Z",
+    "password": "*1234!",
+    "role": "ADMIN"
+  },
+  {
+    "id": 3,
+    "loginId": "jun@glocalizeinc.com",
+    "clientName": "kimsejun",
+    "remarks": "kimsejun is client",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "dateOfUpdated": "2021-10-19T13:02:11.450Z",
+    "password": "*1234!",
+    "role": "ADMIN"
+  },
+  {
+    "id": 4,
+    "loginId": "galaxy@glocalizeinc.com",
+    "clientName": "shinwooju",
+    "remarks": "shinwooju is client",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "dateOfUpdated": "2021-10-19T17:05:45.000Z",
+    "password": "15",
+    "role": "ADMIN"
+  },
+  {
+    "id": 5,
+    "loginId": "melody@glocalizeinc.com",
+    "clientName": "sonmyeonghei",
+    "remarks": "sonmyeonghei is client",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "dateOfUpdated": "2021-10-19T17:05:45.000Z",
+    "password": "16",
+    "role": "ADMIN"
+  }
+]
