@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SearchAlt2 } from '@styled-icons/boxicons-regular/SearchAlt2';
-import UserFilter from './UserFilter';
+import FilterBtn from 'components/Filter/FilterBtn';
 import UserTable from './UserTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
 const userTableHeader = {
-  Num: `NUM`,
+  Num: `No.`,
   Id: `Id`,
   FirstName: `First Name`,
   MiddleName: `Middle Name`,
@@ -21,7 +21,7 @@ const userTableHeader = {
 
 // 서버에서 받아와야 될 데이터
 const userTableContent = {
-  Num: `1`,
+  Num: 1,
   Id: `cho`,
   FirstName: `cho`,
   MiddleName: `seong`,
@@ -30,11 +30,53 @@ const userTableContent = {
   Birthday: `oct 02 1991`,
   Language: `Kor`,
   RegDate: `jun 01 2021`,
-  Detail: `ddd`,
-  Status: `sddsfsd`,
+  Status: true,
 };
 
-const UserList = () => {
+// filter 종류
+interface conditionsType {
+  [key: string]: string;
+  All: string;
+  Activated: string;
+  Deactivated: string;
+}
+
+const conditions: conditionsType = {
+  All: `All`,
+  Activated: `Activated user`,
+  Deactivated: `Deactivated user`,
+};
+
+interface registType {
+  [key: string]: string;
+  latest: string;
+  oldest: string;
+}
+
+const regist: registType = {
+  latest: `By latest registered date`,
+  oldest: `By oldest registered date`,
+};
+
+const pages: {
+  [key: string]: number;
+  '10': number;
+  '15': number;
+  '20': number;
+  '30': number;
+  '50': number;
+} = { '10': 10, '15': 15, '20': 20, '30': 30, '50': 50 };
+
+interface Iprops {
+  setUserId: React.Dispatch<React.SetStateAction<number>>;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const UserList = ({ setUserId, setPage }: Iprops) => {
+  const [userActiveFilter, setUserActiveFilter] = useState('All');
+  const [userRegistFilter, setUserRegistFilter] = useState('latest');
+  const [userPagesFilter, setUserPagesFilter] = useState('15');
+
   return (
     <Container>
       <NoticeBox>
@@ -44,7 +86,6 @@ const UserList = () => {
             - You can block a user or check sourced file history.
           </NoticeText>
         </NoticeTextBox>
-        <NewClientBtn>Register Client</NewClientBtn>
       </NoticeBox>
       <SearchBox>
         <SearchTextBox>
@@ -58,23 +99,49 @@ const UserList = () => {
           <SearchIcon />
         </SearchInputBox>
       </SearchBox>
-      <UserFilter />
-      <UserTableContainer>
-        <UserTableHeader>
-          <UserTable userTable={userTableHeader} />
-        </UserTableHeader>
-        <UserTableContents>
-          <UserTable userTable={userTableContent} />
-        </UserTableContents>
-      </UserTableContainer>
+      <FilterContainer>
+        <FilterBtn
+          selectedFilter={userActiveFilter}
+          conditions={conditions}
+          widthValue={150}
+          setFilter={setUserActiveFilter}
+        />
+        <FilterBtn
+          selectedFilter={userRegistFilter}
+          conditions={regist}
+          widthValue={205}
+          setFilter={setUserRegistFilter}
+        />
+        <FilterBtn
+          selectedFilter={userPagesFilter}
+          conditions={pages}
+          widthValue={30}
+          setFilter={setUserPagesFilter}
+        />
+      </FilterContainer>
+      <TableContainer>
+        <TableHeader>
+          <UserTable
+            userTable={userTableHeader}
+            setUserId={setUserId}
+            setPage={setPage}
+          />
+        </TableHeader>
+        <TableContents>
+          <UserTable
+            userTable={userTableContent}
+            setUserId={setUserId}
+            setPage={setPage}
+          />
+        </TableContents>
+      </TableContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
-  margin-left: 200px;
+  margin: 60px 0 0 200px;
   padding: 20px 10px 0px 20px;
-  min-height: 100vh;
 `;
 
 const NoticeBox = styled.div`
@@ -95,14 +162,6 @@ const NoticeTextBox = styled.div`
 `;
 
 const NoticeText = styled.div``;
-
-const NewClientBtn = styled.button`
-  height: 40px;
-  color: white;
-  background-color: ${({ theme }) => theme.color.yellow};
-  border: none;
-  border-radius: 5px;
-`;
 
 const SearchBox = styled.div`
   display: flex;
@@ -138,23 +197,31 @@ const SearchInput = styled.input`
   border: 1px solid rgb(220, 220, 220);
 `;
 
-const UserTableContainer = styled.div`
+const FilterContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const UserTableHeader = styled.ul`
+const TableHeader = styled.ul`
   display: flex;
+  align-items: center;
   padding: 20px 10px 10px 10px;
   border-bottom: 2px solid rgb(220, 220, 220);
   font-size: 15px;
   font-weight: bold;
 `;
 
-const UserTableContents = styled.ul`
+const TableContents = styled.ul`
   display: flex;
-  padding: 20px 10px 10px 10px;
+  align-items: center;
+  padding: 10px;
   font-size: 15px;
+  width: 100%;
 `;
 
 const SearchIcon = styled(SearchAlt2)`

@@ -1,10 +1,6 @@
-// import AdminSingin from 'pages/AdminSignin/AdminSignin';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Nav from 'components/Nav/Nav';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { increment, RootState } from 'index';
-// import { Dispatch } from 'redux';
 import ClientList from './ClientList/ClientList';
 import ClientDetail from './ClientList/ClientDetail';
 import UserList from './UserList/UserList';
@@ -69,9 +65,6 @@ const AdminMain = () => {
       );
     }
   }, [page]);
-
-  // const 꺼내온거 = useSelector((state: RootState) => state);
-  // const dispatch: Dispatch = useDispatch();
 
   return (
     <Container>
