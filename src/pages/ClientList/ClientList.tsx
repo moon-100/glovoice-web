@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { SearchAlt2 } from '@styled-icons/boxicons-regular/SearchAlt2';
 import FilterBtn from 'components/Filter/FilterBtn';
+import Nav from 'components/Nav/Nav';
 import ClientTable from './ClientTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
@@ -67,73 +68,78 @@ const ClientList = ({ setClientId, setPage }: Iprops) => {
   }, []);
 
   return (
-    <Container>
-      <NoticeBox>
-        <NoticeTextBox>
-          <NoticeText>- You can register or delete client account.</NoticeText>
-          <NoticeText>- Initial password is *1234!</NoticeText>
-        </NoticeTextBox>
-        <NewClientBtn
-          onClick={() => {
-            setPage('newClient');
-          }}
-        >
-          Register Client
-        </NewClientBtn>
-      </NoticeBox>
-      <SearchBox>
-        <SearchTextBox>
-          <SearchHeader>Search</SearchHeader>
-          <SearchText>
-            *Search criteria depends on admin’s system time zone.
-          </SearchText>
-        </SearchTextBox>
-        <SearchInputBox>
-          <SearchInput type="text" placeholder="Enter client ID or name." />
-          <SearchIcon />
-        </SearchInputBox>
-      </SearchBox>
-      <FilterContainer>
-        <FilterBtn
-          selectedFilter={clientRegistFilter}
-          conditions={conditions}
-          widthValue={210}
-          setFilter={setCilentRegistFilter}
-        />
-        <FilterBtn
-          selectedFilter={clientPagesFilter}
-          conditions={pages}
-          widthValue={30}
-          setFilter={setClientPagesFilter}
-        />
-      </FilterContainer>
-      <TableContainer>
-        <TableHeader>
-          <ClientTable
-            client={clientTableHeader}
-            setClientId={setClientId}
-            setPage={setPage}
+    <>
+      <Nav pageName="clientList" />
+      <Container>
+        <NoticeBox>
+          <NoticeTextBox>
+            <NoticeText>
+              - You can register or delete client account.
+            </NoticeText>
+            <NoticeText>- Initial password is *1234!</NoticeText>
+          </NoticeTextBox>
+          <NewClientBtn
+            onClick={() => {
+              setPage('newClient');
+            }}
+          >
+            Register Client
+          </NewClientBtn>
+        </NoticeBox>
+        <SearchBox>
+          <SearchTextBox>
+            <SearchHeader>Search</SearchHeader>
+            <SearchText>
+              *Search criteria depends on admin’s system time zone.
+            </SearchText>
+          </SearchTextBox>
+          <SearchInputBox>
+            <SearchInput type="text" placeholder="Enter client ID or name." />
+            <SearchIcon />
+          </SearchInputBox>
+        </SearchBox>
+        <FilterContainer>
+          <FilterBtn
+            selectedFilter={clientRegistFilter}
+            conditions={conditions}
+            widthValue={210}
+            setFilter={setCilentRegistFilter}
           />
-        </TableHeader>
-        {clientList &&
-          clientList.map((client) => {
-            return (
-              <TableContents key={client.id}>
-                <ClientTable
-                  client={client}
-                  setClientId={setClientId}
-                  setPage={setPage}
-                />
-              </TableContents>
-            );
-          })}
-      </TableContainer>
-    </Container>
+          <FilterBtn
+            selectedFilter={clientPagesFilter}
+            conditions={pages}
+            widthValue={30}
+            setFilter={setClientPagesFilter}
+          />
+        </FilterContainer>
+        <TableContainer>
+          <TableHeader>
+            <ClientTable
+              client={clientTableHeader}
+              setClientId={setClientId}
+              setPage={setPage}
+            />
+          </TableHeader>
+          {clientList &&
+            clientList.map((client) => {
+              return (
+                <TableContents key={client.id}>
+                  <ClientTable
+                    client={client}
+                    setClientId={setClientId}
+                    setPage={setPage}
+                  />
+                </TableContents>
+              );
+            })}
+        </TableContainer>
+      </Container>
+    </>
   );
 };
 
 const Container = styled.div`
-  margin: 60px 0 0 200px;
+  margin-left: 292px;
   padding: 20px 10px 0px 20px;
 `;
 

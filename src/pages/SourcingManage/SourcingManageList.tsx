@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SearchAlt2 } from '@styled-icons/boxicons-regular/SearchAlt2';
 import FilterBtn from 'components/Filter/FilterBtn';
+import Nav from 'components/Nav/Nav';
 import SourcingManageTable from './SourcingManageTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
@@ -96,85 +97,88 @@ const SourcingManageList = ({ setSourcingManageId, setPage }: Iprops) => {
     useState('15');
 
   return (
-    <Container>
-      <NoticeBox>
-        <NoticeTextBox>
-          <NoticeText>- You can check progress of uploaded file.</NoticeText>
-          <NoticeText>
-            - You can designate a client to uploaded file.
-          </NoticeText>
-        </NoticeTextBox>
-        <NewUploadBtn
-          onClick={() => {
-            setPage('UploadFile');
-          }}
-        >
-          Upload File
-        </NewUploadBtn>
-      </NoticeBox>
-      <SearchBox>
-        <SearchTextBox>
-          <SearchHeader>Search</SearchHeader>
-          <SearchText>
-            *Search criteria depends on admin’s system time zone.
-          </SearchText>
-        </SearchTextBox>
-        <SearchInputBox>
-          <SearchInput
-            type="text"
-            placeholder="Enter title of the file or remarks."
+    <>
+      <Nav pageName="crowdFileList" />
+      <Container>
+        <NoticeBox>
+          <NoticeTextBox>
+            <NoticeText>- You can check progress of uploaded file.</NoticeText>
+            <NoticeText>
+              - You can designate a client to uploaded file.
+            </NoticeText>
+          </NoticeTextBox>
+          <NewUploadBtn
+            onClick={() => {
+              setPage('UploadFile');
+            }}
+          >
+            Upload File
+          </NewUploadBtn>
+        </NoticeBox>
+        <SearchBox>
+          <SearchTextBox>
+            <SearchHeader>Search</SearchHeader>
+            <SearchText>
+              *Search criteria depends on admin’s system time zone.
+            </SearchText>
+          </SearchTextBox>
+          <SearchInputBox>
+            <SearchInput
+              type="text"
+              placeholder="Enter title of the file or remarks."
+            />
+            <SearchIcon />
+          </SearchInputBox>
+        </SearchBox>
+        <FilterContainer>
+          <FilterBtn
+            selectedFilter={sourcingManageUploadFilter}
+            conditions={uploadStatus}
+            widthValue={90}
+            setFilter={setSourcingManageUploadFilter}
           />
-          <SearchIcon />
-        </SearchInputBox>
-      </SearchBox>
-      <FilterContainer>
-        <FilterBtn
-          selectedFilter={sourcingManageUploadFilter}
-          conditions={uploadStatus}
-          widthValue={90}
-          setFilter={setSourcingManageUploadFilter}
-        />
-        <FilterBtn
-          selectedFilter={sourcingManagePostFilter}
-          conditions={postStatus}
-          widthValue={70}
-          setFilter={setSourcingManagePostFilter}
-        />
-        <FilterBtn
-          selectedFilter={sourcingManageRegistFilter}
-          conditions={regist}
-          widthValue={205}
-          setFilter={setSourcingManageRegistFilter}
-        />
-        <FilterBtn
-          selectedFilter={sourcingManagePagesFilter}
-          conditions={pages}
-          widthValue={30}
-          setFilter={setSourcingManagePagesFilter}
-        />
-      </FilterContainer>
-      <TableContainer>
-        <TableHeader>
-          <SourcingManageTable
-            sourcingManageTable={sourcingManageTableHeader}
-            setSourcingManageId={setSourcingManageId}
-            setPage={setPage}
+          <FilterBtn
+            selectedFilter={sourcingManagePostFilter}
+            conditions={postStatus}
+            widthValue={70}
+            setFilter={setSourcingManagePostFilter}
           />
-        </TableHeader>
-        <TableContents>
-          <SourcingManageTable
-            sourcingManageTable={sourcingManageTableContent}
-            setSourcingManageId={setSourcingManageId}
-            setPage={setPage}
+          <FilterBtn
+            selectedFilter={sourcingManageRegistFilter}
+            conditions={regist}
+            widthValue={205}
+            setFilter={setSourcingManageRegistFilter}
           />
-        </TableContents>
-      </TableContainer>
-    </Container>
+          <FilterBtn
+            selectedFilter={sourcingManagePagesFilter}
+            conditions={pages}
+            widthValue={30}
+            setFilter={setSourcingManagePagesFilter}
+          />
+        </FilterContainer>
+        <TableContainer>
+          <TableHeader>
+            <SourcingManageTable
+              sourcingManageTable={sourcingManageTableHeader}
+              setSourcingManageId={setSourcingManageId}
+              setPage={setPage}
+            />
+          </TableHeader>
+          <TableContents>
+            <SourcingManageTable
+              sourcingManageTable={sourcingManageTableContent}
+              setSourcingManageId={setSourcingManageId}
+              setPage={setPage}
+            />
+          </TableContents>
+        </TableContainer>
+      </Container>
+    </>
   );
 };
 
 const Container = styled.div`
-  margin: 60px 0 0 200px;
+  margin-left: 292px;
   padding: 20px 10px 0px 20px;
 `;
 
