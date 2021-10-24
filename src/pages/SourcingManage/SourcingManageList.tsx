@@ -81,12 +81,7 @@ interface pagesType {
 
 const pages: pagesType = { '10': 10, '15': 15, '20': 20, '30': 30, '50': 50 };
 
-interface Iprops {
-  setSourcingManageId: React.Dispatch<React.SetStateAction<number>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const SourcingManageList = ({ setSourcingManageId, setPage }: Iprops) => {
+const SourcingManageList = () => {
   const [sourcingManageUploadFilter, setSourcingManageUploadFilter] =
     useState('All');
   const [sourcingManagePostFilter, setSourcingManagePostFilter] =
@@ -108,9 +103,9 @@ const SourcingManageList = ({ setSourcingManageId, setPage }: Iprops) => {
             </NoticeText>
           </NoticeTextBox>
           <NewUploadBtn
-            onClick={() => {
-              setPage('UploadFile');
-            }}
+          // onClick={() => {
+          //   setPage('UploadFile');
+          // }}
           >
             Upload File
           </NewUploadBtn>
@@ -136,39 +131,39 @@ const SourcingManageList = ({ setSourcingManageId, setPage }: Iprops) => {
             conditions={uploadStatus}
             widthValue={90}
             setFilter={setSourcingManageUploadFilter}
+            filterName="test"
           />
           <FilterBtn
             selectedFilter={sourcingManagePostFilter}
             conditions={postStatus}
             widthValue={70}
             setFilter={setSourcingManagePostFilter}
+            filterName="test"
           />
           <FilterBtn
             selectedFilter={sourcingManageRegistFilter}
             conditions={regist}
             widthValue={205}
             setFilter={setSourcingManageRegistFilter}
+            filterName="test"
           />
           <FilterBtn
             selectedFilter={sourcingManagePagesFilter}
             conditions={pages}
             widthValue={30}
             setFilter={setSourcingManagePagesFilter}
+            filterName="test"
           />
         </FilterContainer>
         <TableContainer>
           <TableHeader>
             <SourcingManageTable
               sourcingManageTable={sourcingManageTableHeader}
-              setSourcingManageId={setSourcingManageId}
-              setPage={setPage}
             />
           </TableHeader>
           <TableContents>
             <SourcingManageTable
               sourcingManageTable={sourcingManageTableContent}
-              setSourcingManageId={setSourcingManageId}
-              setPage={setPage}
             />
           </TableContents>
         </TableContainer>

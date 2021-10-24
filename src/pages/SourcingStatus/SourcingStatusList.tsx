@@ -79,12 +79,7 @@ interface pagesType {
 
 const pages: pagesType = { '10': 10, '15': 15, '20': 20, '30': 30, '50': 50 };
 
-interface Iprops {
-  setSourcingStatusId: React.Dispatch<React.SetStateAction<number>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const SourcingStatusList = ({ setSourcingStatusId, setPage }: Iprops) => {
+const SourcingStatusList = () => {
   const [sourcingStatusUploadFilter, setSourcingStatusUploadFilter] =
     useState('All');
   const [sourcingStatusPostFilter, setSourcingStatusPostFilter] =
@@ -127,39 +122,39 @@ const SourcingStatusList = ({ setSourcingStatusId, setPage }: Iprops) => {
             conditions={uploadStatus}
             widthValue={90}
             setFilter={setSourcingStatusUploadFilter}
+            filterName="test"
           />
           <FilterBtn
             selectedFilter={sourcingStatusPostFilter}
             conditions={postStatus}
             widthValue={70}
             setFilter={setSourcingStatusPostFilter}
+            filterName="test"
           />
           <FilterBtn
             selectedFilter={sourcingStatusRegistFilter}
             conditions={regist}
             widthValue={205}
             setFilter={setSourcingStatusRegistFilter}
+            filterName="test"
           />
           <FilterBtn
             selectedFilter={sourcingStatusPagesFilter}
             conditions={pages}
             widthValue={30}
             setFilter={setSourcingStatusPagesFilter}
+            filterName="test"
           />
         </FilterContainer>
         <TableContainer>
           <TableHeader>
             <SourcingStatusTable
               sourcingStatusTable={sourcingStatusTableHeader}
-              setSourcingStatusId={setSourcingStatusId}
-              setPage={setPage}
             />
           </TableHeader>
           <TableContents>
             <SourcingStatusTable
               sourcingStatusTable={sourcingStatusTableContent}
-              setSourcingStatusId={setSourcingStatusId}
-              setPage={setPage}
             />
           </TableContents>
         </TableContainer>

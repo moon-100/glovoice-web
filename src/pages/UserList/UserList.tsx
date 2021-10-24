@@ -68,12 +68,7 @@ const pages: {
   '50': number;
 } = { '10': 10, '15': 15, '20': 20, '30': 30, '50': 50 };
 
-interface Iprops {
-  setUserId: React.Dispatch<React.SetStateAction<number>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const UserList = ({ setUserId, setPage }: Iprops) => {
+const UserList = () => {
   const [userActiveFilter, setUserActiveFilter] = useState('All');
   const [userRegistFilter, setUserRegistFilter] = useState('latest');
   const [userPagesFilter, setUserPagesFilter] = useState('15');
@@ -108,34 +103,29 @@ const UserList = ({ setUserId, setPage }: Iprops) => {
             conditions={conditions}
             widthValue={150}
             setFilter={setUserActiveFilter}
+            filterName="test"
           />
           <FilterBtn
             selectedFilter={userRegistFilter}
             conditions={regist}
             widthValue={205}
             setFilter={setUserRegistFilter}
+            filterName="test"
           />
           <FilterBtn
             selectedFilter={userPagesFilter}
             conditions={pages}
             widthValue={30}
             setFilter={setUserPagesFilter}
+            filterName="test"
           />
         </FilterContainer>
         <TableContainer>
           <TableHeader>
-            <UserTable
-              userTable={userTableHeader}
-              setUserId={setUserId}
-              setPage={setPage}
-            />
+            <UserTable userTable={userTableHeader} />
           </TableHeader>
           <TableContents>
-            <UserTable
-              userTable={userTableContent}
-              setUserId={setUserId}
-              setPage={setPage}
-            />
+            <UserTable userTable={userTableContent} />
           </TableContents>
         </TableContainer>
       </Container>

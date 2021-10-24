@@ -14,15 +14,9 @@ interface Iprops {
     PostStatus?: string;
     Detail?: string;
   };
-  setSourcingManageId: React.Dispatch<React.SetStateAction<number>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const SourcingManageTable = ({
-  sourcingManageTable,
-  setSourcingManageId,
-  setPage,
-}: Iprops) => {
+const SourcingManageTable = ({ sourcingManageTable }: Iprops) => {
   return (
     <>
       <Num>{sourcingManageTable.Num}</Num>
@@ -43,12 +37,7 @@ const SourcingManageTable = ({
       <PostStatus>{sourcingManageTable.PostStatus}</PostStatus>
       <Detail>
         {typeof sourcingManageTable.Num === 'number' ? (
-          <DetailBtn
-            id={sourcingManageTable.Num}
-            page="sourcingManageDetail"
-            setId={setSourcingManageId}
-            setPage={setPage}
-          />
+          <DetailBtn id={sourcingManageTable.Num} />
         ) : (
           sourcingManageTable.Detail
         )}
