@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import { SIGN_IN } from 'config';
@@ -12,6 +12,7 @@ const AdminSignin = () => {
   const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
+  const [activeLogin, setActiveLogin] = useState(false);
 
   const signin = () => {
     fetch(`${SIGN_IN}`, {
@@ -22,7 +23,7 @@ const AdminSignin = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res.token) {
-          localStorage.setItem('admin-token', res.token);
+          localStorage.setItem('client-token', res.token);
           history.push('/main');
         } else {
           alert(`Please check your account.`);
@@ -31,10 +32,18 @@ const AdminSignin = () => {
       });
   };
 
+  useEffect(() => {
+    if (loginId.length > 5 && password.length > 5) {
+      setActiveLogin(true);
+    } else {
+      setActiveLogin(false);
+    }
+  }, [loginId, password]);
+
   return (
     <Container>
       <ContentFrame>
-        <Logo alt="Logo" src="/images/logo-glo-voice.png" />
+        <Logo alt="Logo" src="/images/logo.png" />
         <InputContainer>
           <InputText>ID</InputText>
           <InputBox
@@ -58,7 +67,13 @@ const AdminSignin = () => {
           />
           {loginError && <ErrorBox>Please check your account.</ErrorBox>}
         </InputContainer>
-        <SigninBtn onClick={signin}>LOG IN</SigninBtn>
+        <SigninBtn
+          onClick={signin}
+          activeLogin={activeLogin}
+          disabled={!activeLogin}
+        >
+          LOG IN
+        </SigninBtn>
       </ContentFrame>
     </Container>
   );
@@ -110,14 +125,17 @@ const InputBox = styled.input<loginErrorType>`
   font-size: 14px;
   font-family: SpoqaHanSans;
 
-  /* ${({ loginError }) =>
-    loginError ? `background-color:blue;` : `background-color:red;`} */
-
   ${({ loginError }) =>
     loginError && `border:1px solid #e44646; background-color:#fff2f2;`}
 
   ::placeholder {
     color: #111;
+  }
+
+  :focus {
+    border: none;
+    outline: solid 1px #1a61f7;
+    background-color: #e3eaf9;
   }
 `;
 
@@ -129,11 +147,12 @@ const ErrorBox = styled.div`
   color: #e44646;
 `;
 
-const SigninBtn = styled.button`
+const SigninBtn = styled.button<{ activeLogin: boolean }>`
   width: 328px;
   height: 48px;
   border-radius: 24px;
-  color: rgba(255, 255, 255, 0.47);
+  color: ${({ activeLogin }) =>
+    activeLogin ? 'white' : 'rgba(255, 255, 255, 0.47)'};
   border: none;
   background-color: #111;
   font-family: SpoqaHanSans;
