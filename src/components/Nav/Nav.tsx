@@ -7,11 +7,11 @@ interface pageType {
   readonly value?: string;
 }
 
-interface testType {
+interface pageNameType {
   pageName: string;
 }
 
-const Nav = ({ pageName }: testType) => {
+const Nav = ({ pageName }: pageNameType) => {
   const history = useHistory();
   const [page, setPage] = useState(pageName);
 
@@ -22,7 +22,7 @@ const Nav = ({ pageName }: testType) => {
   return (
     <Container>
       <ContentContainer>
-        <Logo alt="logo" src="/images/logo-glo-voice.png" />
+        <Logo alt="logo" src="/images/logo.png" />
         <NavContainer>
           <NavHeader>Client Management</NavHeader>
           <NavContent
@@ -69,6 +69,14 @@ const Nav = ({ pageName }: testType) => {
           </NavContent>
         </NavContainer>
       </ContentContainer>
+      <NavLogout
+        onClick={() => {
+          localStorage.removeItem('client-token');
+          history.push('/');
+        }}
+      >
+        Log out
+      </NavLogout>
     </Container>
   );
 };
@@ -77,6 +85,10 @@ const Container = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
   width: 292px;
   height: 100%;
   background-color: #e9eef8;
@@ -85,7 +97,6 @@ const Container = styled.div`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
   margin: 24px 16px 18px 16px;
 `;
@@ -121,6 +132,15 @@ const NavContent = styled.div<pageType>`
   }
 
   ${({ page, value }) => page === value && `background-color: #d1dffd;`}
+`;
+
+const NavLogout = styled.div`
+  margin: 24px 16px 18px 16px;
+  font-family: SpoqaHanSans;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #888;
+  text-decoration: underline;
 `;
 
 export default Nav;
