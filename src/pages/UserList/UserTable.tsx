@@ -18,11 +18,9 @@ interface Iprops {
     Detail?: string;
     Status?: string | boolean;
   };
-  setUserId: React.Dispatch<React.SetStateAction<number>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const UserTable = ({ userTable, setUserId, setPage }: Iprops) => {
+const UserTable = ({ userTable }: Iprops) => {
   const [activeWindow, setActiveWindow] = useState(false);
 
   const clickWindowHandler = () => {
@@ -50,12 +48,7 @@ const UserTable = ({ userTable, setUserId, setPage }: Iprops) => {
       <RegDate>{userTable.RegDate}</RegDate>
       <Detail>
         {typeof userTable.Num === 'number' ? (
-          <DetailBtn
-            id={userTable.Num}
-            page="userDetail"
-            setId={setUserId}
-            setPage={setPage}
-          />
+          <DetailBtn id={userTable.Num} />
         ) : (
           userTable.Detail
         )}

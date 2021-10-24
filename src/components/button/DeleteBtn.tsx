@@ -1,40 +1,29 @@
+import { DELETE_CLIENT } from 'config';
 import React from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router';
-import { Trash2 } from '@styled-icons/feather/Trash2';
 
 interface DetailInfo {
   id: number;
 }
 
 const DeleteBtn = ({ id }: DetailInfo) => {
-  const history = useHistory();
-
   const clickHandler = () => {
-    if (id) {
-      history.push(`delete/:${id}`);
-    }
+    fetch(`${DELETE_CLIENT}/${id}`, { method: 'DELETE' })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
   };
 
   return (
-    <Delete onClick={clickHandler}>
-      <TrashIcon />
-    </Delete>
+    <Delete
+      alt="deleteBtn"
+      src="/images/trashIcon.png"
+      onClick={clickHandler}
+    />
   );
 };
 
-const Delete = styled.button`
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  color: white;
-  background-color: ${({ theme }) => theme.color.black};
-  border: none;
-  border-radius: 3px;
-`;
-
-const TrashIcon = styled(Trash2)`
-  width: 20px;
+const Delete = styled.img`
+  width: 24px;
 `;
 
 export default DeleteBtn;

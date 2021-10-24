@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SearchAlt2 } from '@styled-icons/boxicons-regular/SearchAlt2';
 import FilterBtn from 'components/Filter/FilterBtn';
+import Nav from 'components/Nav/Nav';
 import SourcingStatusTable from './SourcingStatusTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
@@ -78,12 +79,7 @@ interface pagesType {
 
 const pages: pagesType = { '10': 10, '15': 15, '20': 20, '30': 30, '50': 50 };
 
-interface Iprops {
-  setSourcingStatusId: React.Dispatch<React.SetStateAction<number>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const SourcingStatusList = ({ setSourcingStatusId, setPage }: Iprops) => {
+const SourcingStatusList = () => {
   const [sourcingStatusUploadFilter, setSourcingStatusUploadFilter] =
     useState('All');
   const [sourcingStatusPostFilter, setSourcingStatusPostFilter] =
@@ -94,73 +90,76 @@ const SourcingStatusList = ({ setSourcingStatusId, setPage }: Iprops) => {
     useState('15');
 
   return (
-    <Container>
-      <NoticeBox>
-        <NoticeTextBox>
-          <NoticeText>- You can check progress of uploaded file.</NoticeText>
-          <NoticeText>
-            - You can designate a client to uploaded file.
-          </NoticeText>
-        </NoticeTextBox>
-      </NoticeBox>
-      <SearchBox>
-        <SearchTextBox>
-          <SearchHeader>Search</SearchHeader>
-          <SearchText>
-            *Search criteria depends on admin’s system time zone.
-          </SearchText>
-        </SearchTextBox>
-        <SearchInputBox>
-          <SearchInput
-            type="text"
-            placeholder="Enter title of the file or remarks."
+    <>
+      <Nav pageName="crowdStatusList" />
+      <Container>
+        <NoticeBox>
+          <NoticeTextBox>
+            <NoticeText>- You can check progress of uploaded file.</NoticeText>
+            <NoticeText>
+              - You can designate a client to uploaded file.
+            </NoticeText>
+          </NoticeTextBox>
+        </NoticeBox>
+        <SearchBox>
+          <SearchTextBox>
+            <SearchHeader>Search</SearchHeader>
+            <SearchText>
+              *Search criteria depends on admin’s system time zone.
+            </SearchText>
+          </SearchTextBox>
+          <SearchInputBox>
+            <SearchInput
+              type="text"
+              placeholder="Enter title of the file or remarks."
+            />
+            <SearchIcon />
+          </SearchInputBox>
+        </SearchBox>
+        <FilterContainer>
+          <FilterBtn
+            selectedFilter={sourcingStatusUploadFilter}
+            conditions={uploadStatus}
+            widthValue={90}
+            setFilter={setSourcingStatusUploadFilter}
+            filterName="test"
           />
-          <SearchIcon />
-        </SearchInputBox>
-      </SearchBox>
-      <FilterContainer>
-        <FilterBtn
-          selectedFilter={sourcingStatusUploadFilter}
-          conditions={uploadStatus}
-          widthValue={90}
-          setFilter={setSourcingStatusUploadFilter}
-        />
-        <FilterBtn
-          selectedFilter={sourcingStatusPostFilter}
-          conditions={postStatus}
-          widthValue={70}
-          setFilter={setSourcingStatusPostFilter}
-        />
-        <FilterBtn
-          selectedFilter={sourcingStatusRegistFilter}
-          conditions={regist}
-          widthValue={205}
-          setFilter={setSourcingStatusRegistFilter}
-        />
-        <FilterBtn
-          selectedFilter={sourcingStatusPagesFilter}
-          conditions={pages}
-          widthValue={30}
-          setFilter={setSourcingStatusPagesFilter}
-        />
-      </FilterContainer>
-      <TableContainer>
-        <TableHeader>
-          <SourcingStatusTable
-            sourcingStatusTable={sourcingStatusTableHeader}
-            setSourcingStatusId={setSourcingStatusId}
-            setPage={setPage}
+          <FilterBtn
+            selectedFilter={sourcingStatusPostFilter}
+            conditions={postStatus}
+            widthValue={70}
+            setFilter={setSourcingStatusPostFilter}
+            filterName="test"
           />
-        </TableHeader>
-        <TableContents>
-          <SourcingStatusTable
-            sourcingStatusTable={sourcingStatusTableContent}
-            setSourcingStatusId={setSourcingStatusId}
-            setPage={setPage}
+          <FilterBtn
+            selectedFilter={sourcingStatusRegistFilter}
+            conditions={regist}
+            widthValue={205}
+            setFilter={setSourcingStatusRegistFilter}
+            filterName="test"
           />
-        </TableContents>
-      </TableContainer>
-    </Container>
+          <FilterBtn
+            selectedFilter={sourcingStatusPagesFilter}
+            conditions={pages}
+            widthValue={30}
+            setFilter={setSourcingStatusPagesFilter}
+            filterName="test"
+          />
+        </FilterContainer>
+        <TableContainer>
+          <TableHeader>
+            <SourcingStatusTable
+              sourcingStatusTable={sourcingStatusTableHeader}
+            />
+          </TableHeader>
+          <TableContents>
+            <SourcingStatusTable
+              sourcingStatusTable={sourcingStatusTableContent}
+            />
+          </TableContents>
+        </TableContainer>
+      </Container>
+    </>
   );
 };
 

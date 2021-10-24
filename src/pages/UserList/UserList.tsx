@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SearchAlt2 } from '@styled-icons/boxicons-regular/SearchAlt2';
 import FilterBtn from 'components/Filter/FilterBtn';
+import Nav from 'components/Nav/Nav';
 import UserTable from './UserTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
@@ -67,80 +68,73 @@ const pages: {
   '50': number;
 } = { '10': 10, '15': 15, '20': 20, '30': 30, '50': 50 };
 
-interface Iprops {
-  setUserId: React.Dispatch<React.SetStateAction<number>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const UserList = ({ setUserId, setPage }: Iprops) => {
+const UserList = () => {
   const [userActiveFilter, setUserActiveFilter] = useState('All');
   const [userRegistFilter, setUserRegistFilter] = useState('latest');
   const [userPagesFilter, setUserPagesFilter] = useState('15');
 
   return (
-    <Container>
-      <NoticeBox>
-        <NoticeTextBox>
-          <NoticeText>- You can check registered user list.</NoticeText>
-          <NoticeText>
-            - You can block a user or check sourced file history.
-          </NoticeText>
-        </NoticeTextBox>
-      </NoticeBox>
-      <SearchBox>
-        <SearchTextBox>
-          <SearchHeader>Search</SearchHeader>
-          <SearchText>
-            *Search criteria depends on admin’s system time zone.
-          </SearchText>
-        </SearchTextBox>
-        <SearchInputBox>
-          <SearchInput type="text" placeholder="Enter user ID or name." />
-          <SearchIcon />
-        </SearchInputBox>
-      </SearchBox>
-      <FilterContainer>
-        <FilterBtn
-          selectedFilter={userActiveFilter}
-          conditions={conditions}
-          widthValue={150}
-          setFilter={setUserActiveFilter}
-        />
-        <FilterBtn
-          selectedFilter={userRegistFilter}
-          conditions={regist}
-          widthValue={205}
-          setFilter={setUserRegistFilter}
-        />
-        <FilterBtn
-          selectedFilter={userPagesFilter}
-          conditions={pages}
-          widthValue={30}
-          setFilter={setUserPagesFilter}
-        />
-      </FilterContainer>
-      <TableContainer>
-        <TableHeader>
-          <UserTable
-            userTable={userTableHeader}
-            setUserId={setUserId}
-            setPage={setPage}
+    <>
+      <Nav pageName="userList" />
+      <Container>
+        <NoticeBox>
+          <NoticeTextBox>
+            <NoticeText>- You can check registered user list.</NoticeText>
+            <NoticeText>
+              - You can block a user or check sourced file history.
+            </NoticeText>
+          </NoticeTextBox>
+        </NoticeBox>
+        <SearchBox>
+          <SearchTextBox>
+            <SearchHeader>Search</SearchHeader>
+            <SearchText>
+              *Search criteria depends on admin’s system time zone.
+            </SearchText>
+          </SearchTextBox>
+          <SearchInputBox>
+            <SearchInput type="text" placeholder="Enter user ID or name." />
+            <SearchIcon />
+          </SearchInputBox>
+        </SearchBox>
+        <FilterContainer>
+          <FilterBtn
+            selectedFilter={userActiveFilter}
+            conditions={conditions}
+            widthValue={150}
+            setFilter={setUserActiveFilter}
+            filterName="test"
           />
-        </TableHeader>
-        <TableContents>
-          <UserTable
-            userTable={userTableContent}
-            setUserId={setUserId}
-            setPage={setPage}
+          <FilterBtn
+            selectedFilter={userRegistFilter}
+            conditions={regist}
+            widthValue={205}
+            setFilter={setUserRegistFilter}
+            filterName="test"
           />
-        </TableContents>
-      </TableContainer>
-    </Container>
+          <FilterBtn
+            selectedFilter={userPagesFilter}
+            conditions={pages}
+            widthValue={30}
+            setFilter={setUserPagesFilter}
+            filterName="test"
+          />
+        </FilterContainer>
+        <TableContainer>
+          <TableHeader>
+            <UserTable userTable={userTableHeader} />
+          </TableHeader>
+          <TableContents>
+            <UserTable userTable={userTableContent} />
+          </TableContents>
+        </TableContainer>
+      </Container>
+    </>
   );
 };
 
 const Container = styled.div`
-  margin: 60px 0 0 200px;
+  margin-left: 292px;
   padding: 20px 10px 0px 20px;
 `;
 

@@ -1,39 +1,25 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import { Pencil } from '@styled-icons/bootstrap/Pencil';
 
 interface DetailInfo {
   id: number;
-  page: string;
-  setId: React.Dispatch<React.SetStateAction<number>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const DetailBtn = ({ id, page, setId, setPage }: DetailInfo) => {
+const DetailBtn = ({ id }: DetailInfo) => {
+  const history = useHistory();
+
   const clickHandler = () => {
-    setId(id);
-    setPage(`${page}`);
+    history.push(`client/${id}`);
   };
 
   return (
-    <Detail onClick={clickHandler}>
-      <PencilIcon />
-    </Detail>
+    <Detail alt="detailBtn" src="/images/editIcon.png" onClick={clickHandler} />
   );
 };
 
-const Detail = styled.button`
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  color: white;
-  background-color: ${({ theme }) => theme.color.green};
-  border: none;
-  border-radius: 3px;
-`;
-
-const PencilIcon = styled(Pencil)`
-  width: 15px;
+const Detail = styled.img`
+  width: 24px;
 `;
 
 export default DetailBtn;

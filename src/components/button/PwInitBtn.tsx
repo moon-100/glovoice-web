@@ -1,40 +1,34 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router';
-import { UnlockOutline } from '@styled-icons/evaicons-outline/UnlockOutline';
+import { PASSWORD_INIT } from 'config';
 
-interface PwInitInfo {
+interface Iprops {
   id: number;
 }
 
-const PwInitBtn = ({ id }: PwInitInfo) => {
-  const history = useHistory();
-
-  const clickHandler = () => {
-    if (id) {
-      history.push(`Pwinit/:${id}`);
-    }
+const PwInitBtn = ({ id }: Iprops) => {
+  const passwordInit = () => {
+    fetch(`${PASSWORD_INIT}`, {
+      method: 'POST',
+      body: JSON.stringify({ id }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
   };
 
   return (
-    <PwInit onClick={clickHandler}>
-      <LockIcon />
-    </PwInit>
+    <PwInit
+      alt="passwordInitBtn"
+      src="/images/lockIcon.png"
+      onClick={() => {
+        passwordInit();
+      }}
+    />
   );
 };
 
-const PwInit = styled.button`
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  color: white;
-  background-color: ${({ theme }) => theme.color.red};
-  border: none;
-  border-radius: 3px;
-`;
-
-const LockIcon = styled(UnlockOutline)`
-  width: 20px;
+const PwInit = styled.img`
+  width: 24px;
 `;
 
 export default PwInitBtn;

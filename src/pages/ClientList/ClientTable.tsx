@@ -15,14 +15,12 @@ interface Iprops {
     dateOfUpdated?: string;
     password?: string;
     role?: string;
-    Edit?: string;
-    Delete?: string;
+    details?: string;
+    delete?: string;
   };
-  setClientId: React.Dispatch<React.SetStateAction<number>>;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ClientTable = ({ client, setClientId, setPage }: Iprops) => {
+const ClientTable = ({ client }: Iprops) => {
   return (
     <>
       <Num>{client.id}</Num>
@@ -41,23 +39,18 @@ const ClientTable = ({ client, setClientId, setPage }: Iprops) => {
           ? client.dateOfCreated.substr(0, 10)
           : '-'}
       </RegDate>
-      <Edit>
+      <Details>
         {typeof client.id === 'number' ? (
-          <DetailBtn
-            id={client.id}
-            page="clientDetail"
-            setId={setClientId}
-            setPage={setPage}
-          />
+          <DetailBtn id={client.id} />
         ) : (
-          client.Edit
+          client.details
         )}
-      </Edit>
+      </Details>
       <Delete>
         {typeof client.id === 'number' ? (
           <DeleteBtn id={client.id} />
         ) : (
-          client.Delete
+          client.delete
         )}
       </Delete>
     </>
@@ -65,54 +58,81 @@ const ClientTable = ({ client, setClientId, setPage }: Iprops) => {
 };
 
 const Num = styled.li`
-  width: 5%;
-  margin-right: 15px;
+  width: 32px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Id = styled.li`
-  width: 10%;
+  width: 176px;
+  margin-left: 14px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Name = styled.li`
-  width: 10%;
+  width: 144px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Desc = styled.li`
-  width: 30%;
+  width: 144px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const PasswordInit = styled.li`
-  width: 10%;
+  width: 134px;
+  margin-left: 34px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const RegDate = styled.li`
-  width: 15%;
+  width: 112px;
+  margin-left: 16px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const Edit = styled.li`
-  width: 10%;
+const Details = styled.li`
+  width: 80px;
+  margin-left: 16px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Delete = styled.li`
-  width: 10%;
+  width: 54px;
+  margin-left: 16px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
