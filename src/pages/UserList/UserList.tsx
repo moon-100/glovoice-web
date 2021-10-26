@@ -1,37 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { SearchAlt2 } from '@styled-icons/boxicons-regular/SearchAlt2';
 import FilterBtn from 'components/Filter/FilterBtn';
 import Nav from 'components/Nav/Nav';
+import { SEARCH_USER } from 'config';
 import UserTable from './UserTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
 const userTableHeader = {
-  Num: `No.`,
-  Id: `Id`,
-  FirstName: `First Name`,
-  MiddleName: `Middle Name`,
-  LastName: `Last Name`,
-  Gender: `Gender`,
-  Birthday: `Birthday`,
-  Language: `Language`,
-  RegDate: `Registered Date`,
-  Detail: `Detail`,
-  Status: `Status`,
-};
-
-// 서버에서 받아와야 될 데이터
-const userTableContent = {
-  Num: 1,
-  Id: `cho`,
-  FirstName: `cho`,
-  MiddleName: `seong`,
-  LastName: `hwan`,
-  Gender: `Male`,
-  Birthday: `oct 02 1991`,
-  Language: `Kor`,
-  RegDate: `jun 01 2021`,
-  Status: true,
+  id: `No.`,
+  loginId: `Id`,
+  userFirstName: `First Name`,
+  userMiddleName: `Middle Name`,
+  userLastName: `Last Name`,
+  gender: `Gender`,
+  birthday: `Birthday`,
+  language: `Language`,
+  dateOfCreated: `Registered Date`,
+  detail: `Detail`,
+  status: `Status`,
 };
 
 // filter 종류
@@ -41,24 +27,20 @@ interface conditionsType {
   Activated: string;
   Deactivated: string;
 }
-
 const conditions: conditionsType = {
   All: `All`,
   Activated: `Activated user`,
   Deactivated: `Deactivated user`,
 };
-
 interface registType {
   [key: string]: string;
-  latest: string;
-  oldest: string;
+  asc: string;
+  desc: string;
 }
-
 const regist: registType = {
-  latest: `By latest registered date`,
-  oldest: `By oldest registered date`,
+  asc: `By latest registered date`,
+  desc: `By oldest registered date`,
 };
-
 const pages: {
   [key: string]: number;
   '10': number;
@@ -70,125 +52,213 @@ const pages: {
 
 const UserList = () => {
   const [userActiveFilter, setUserActiveFilter] = useState('All');
-  const [userRegistFilter, setUserRegistFilter] = useState('latest');
+  const [userRegistFilter, setUserRegistFilter] = useState('asc');
   const [userPagesFilter, setUserPagesFilter] = useState('15');
+  const [search, setSearch] = useState('');
+  const [userList, setUserList] = useState([
+    {
+      id: 0,
+      loginId: '',
+      userFirstName: '',
+      userMiddleName: '',
+      userLastName: '',
+      gender: '',
+      birthday: '',
+      language: '',
+      dateOfCreated: '',
+      detail: '',
+      status: '',
+    },
+  ]);
+
+  // mockdata 테스트
+  useEffect(() => {
+    fetch('/data/userList.json')
+      .then((res) => res.json())
+      .then((res) => setUserList(res));
+  }, []);
+
+  const searchUser = () => {
+    fetch(`${SEARCH_USER}?loginId=${search}`)
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  };
 
   return (
     <>
       <Nav pageName="userList" />
       <Container>
-        <NoticeBox>
-          <NoticeTextBox>
-            <NoticeText>- You can check registered user list.</NoticeText>
-            <NoticeText>
-              - You can block a user or check sourced file history.
-            </NoticeText>
-          </NoticeTextBox>
-        </NoticeBox>
-        <SearchBox>
-          <SearchTextBox>
-            <SearchHeader>Search</SearchHeader>
-            <SearchText>
-              *Search criteria depends on admin’s system time zone.
-            </SearchText>
-          </SearchTextBox>
-          <SearchInputBox>
-            <SearchInput type="text" placeholder="Enter user ID or name." />
-            <SearchIcon />
-          </SearchInputBox>
-        </SearchBox>
-        <FilterContainer>
-          <FilterBtn
-            selectedFilter={userActiveFilter}
-            conditions={conditions}
-            widthValue={150}
-            setFilter={setUserActiveFilter}
-            filterName="test"
-          />
-          <FilterBtn
-            selectedFilter={userRegistFilter}
-            conditions={regist}
-            widthValue={205}
-            setFilter={setUserRegistFilter}
-            filterName="test"
-          />
-          <FilterBtn
-            selectedFilter={userPagesFilter}
-            conditions={pages}
-            widthValue={30}
-            setFilter={setUserPagesFilter}
-            filterName="test"
-          />
-        </FilterContainer>
-        <TableContainer>
-          <TableHeader>
-            <UserTable userTable={userTableHeader} />
-          </TableHeader>
-          <TableContents>
-            <UserTable userTable={userTableContent} />
-          </TableContents>
-        </TableContainer>
+        <UserListContainer>
+          <NoticeBox>
+            <NoticeTextBox>
+              <NoticeText>- You can check registered user list.</NoticeText>
+              <NoticeText>
+                - You can block a user or check sourced file history.
+              </NoticeText>
+            </NoticeTextBox>
+          </NoticeBox>
+          <SearchFilterContainer>
+            <SearchContainer>
+              <SearchHeader>Search</SearchHeader>
+              <SearchInputBox>
+                <SearchInput
+                  type="text"
+                  placeholder="Enter client ID or name."
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+                <SearchIcon
+                  alt="searchIcon"
+                  src="/images/searchIcon.png"
+                  onClick={() => searchUser()}
+                />
+              </SearchInputBox>
+              <SearchText>
+                *Search criteria depends on admin’s system time zone.
+              </SearchText>
+            </SearchContainer>
+            <FilterContainer>
+              <FilterBtn
+                selectedFilter={userActiveFilter}
+                conditions={conditions}
+                widthValue={188}
+                setFilter={setUserActiveFilter}
+                filterName="User Status"
+              />
+              <FilterBtn
+                selectedFilter={userRegistFilter}
+                conditions={regist}
+                widthValue={188}
+                setFilter={setUserRegistFilter}
+                filterName="Sort by"
+              />
+              <FilterBtn
+                selectedFilter={userPagesFilter}
+                conditions={pages}
+                widthValue={80}
+                setFilter={setUserPagesFilter}
+                filterName="Page"
+              />
+            </FilterContainer>
+          </SearchFilterContainer>
+          <TableContainer>
+            <TableHeader>
+              <UserTable user={userTableHeader} />
+            </TableHeader>
+            {userList &&
+              userList.map((user) => {
+                return (
+                  <TableContents key={user.id}>
+                    <UserTable user={user} />
+                  </TableContents>
+                );
+              })}
+          </TableContainer>
+        </UserListContainer>
       </Container>
     </>
   );
 };
 
 const Container = styled.div`
+  display: flex;
+  justify-content: center;
   margin-left: 292px;
-  padding: 20px 10px 0px 20px;
+`;
+
+const UserListContainer = styled.div`
+  max-width: 1020px;
+  width: 100%;
+  min-height: 100vmax;
+  margin-top: 64px;
 `;
 
 const NoticeBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
-  padding: 10px;
-  border: 2px solid rgb(220, 220, 220);
-  border-radius: 10px;
+  height: 96px;
+  padding: 24px 16px;
+  border-radius: 8px;
+  background-color: #e9eef8;
 `;
 
 const NoticeTextBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 100%;
+  justify-content: space-between;
+  height: 48px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
 `;
 
-const NoticeText = styled.div``;
+const NoticeText = styled.div`
+  font-family: SpoqaHanSans;
+  font-size: 16px;
+`;
 
-const SearchBox = styled.div`
+const SearchFilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: 20px 10px;
+  margin-top: 44px;
 `;
 
-const SearchTextBox = styled.div`
+const SearchContainer = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 92px;
 `;
 
 const SearchHeader = styled.div`
-  height: 40px;
-  line-height: 40px;
-  padding-right: 10px;
-  border-right: 1px solid black;
-  font-size: 20px;
+  height: 20px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.43;
+  letter-spacing: 0.15px;
+`;
+
+const SearchInputBox = styled.div`
+  position: relative;
+  margin-top: 8px;
+`;
+
+const SearchInput = styled.input`
+  width: 336px;
+  height: 42px;
+  padding: 8px 6px 8px 8px;
+  border-radius: 4px;
+  border: solid 1px #aaa;
+
+  ::placeholder {
+    font-family: SpoqaHanSans;
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: 0.25px;
+    color: #ccc;
+  }
+
+  :focus {
+    border: none;
+    outline: solid 1px #1a61f7;
+    background-color: #e3eaf9;
+  }
+`;
+
+const SearchIcon = styled.img`
+  position: absolute;
+  top: 9px;
+  right: 8px;
+  width: 24px;
 `;
 
 const SearchText = styled.div`
-  color: red;
-  margin-left: 10px;
-`;
-
-const SearchInputBox = styled.div``;
-
-const SearchInput = styled.input`
-  width: 250px;
-  height: 35px;
-  padding-left: 10px;
-  border: 1px solid rgb(220, 220, 220);
+  margin-top: 4px;
+  font-family: SpoqaHanSans;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
+  color: #888;
 `;
 
 const FilterContainer = styled.div`
@@ -199,29 +269,26 @@ const FilterContainer = styled.div`
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 22px;
 `;
 
 const TableHeader = styled.ul`
   display: flex;
   align-items: center;
-  padding: 20px 10px 10px 10px;
-  border-bottom: 2px solid rgb(220, 220, 220);
-  font-size: 15px;
+  height: 40px;
+  border-bottom: 2px solid #979797;
+  background-color: #f4f4f4;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
   font-weight: bold;
+  line-height: 1.43;
+  letter-spacing: 0.15px;
 `;
 
 const TableContents = styled.ul`
   display: flex;
   align-items: center;
-  padding: 10px;
-  font-size: 15px;
-  width: 100%;
-`;
-
-const SearchIcon = styled(SearchAlt2)`
-  width: 30px;
-  margin-left: 15px;
-  color: skyblue;
+  height: 56px;
 `;
 
 export default UserList;

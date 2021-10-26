@@ -68,6 +68,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 16px;
+  z-index: 10001;
 `;
 
 const Header = styled.div`
@@ -114,7 +115,7 @@ const ArrowUpIcon = styled.img`
 
 const FilterNavBox = styled.div`
   position: absolute;
-  top: 0px;
+  top: 0;
   left: 0;
   display: flex;
   flex-direction: column;

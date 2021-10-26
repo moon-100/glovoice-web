@@ -4,13 +4,14 @@ import styled from 'styled-components';
 
 interface DetailInfo {
   id: number;
+  uri: string;
 }
 
-const DetailBtn = ({ id }: DetailInfo) => {
+const DetailBtn = ({ id, uri }: DetailInfo) => {
   const history = useHistory();
 
   const clickHandler = () => {
-    history.push(`client/${id}`);
+    history.push(`${uri}/${id}`);
   };
 
   return (

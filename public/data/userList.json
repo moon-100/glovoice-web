@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "loginId": "cho@glocalizeinc.com",
+    "userFirstName": "cho",
+    "userMiddleName": "seong",
+    "userLastName": "hwan",
+    "gender": "Male",
+    "birthday": "2021-10-19T17:05:45.000Z",
+    "language": "Kor",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "status": true,
+    "reward": 1444222
+  },
+  {
+    "id": 2,
+    "loginId": "hope@glocalizeinc.com",
+    "userFirstName": "kim",
+    "userMiddleName": "jang",
+    "userLastName": "ho",
+    "gender": "Male",
+    "birthday": "2021-10-19T17:05:45.000Z",
+    "language": "Kor",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "status": true,
+    "reward": 1232341
+  },
+  {
+    "id": 3,
+    "loginId": "jun@glocalizeinc.com",
+    "userFirstName": "kim",
+    "userMiddleName": "se",
+    "userLastName": "jun",
+    "gender": "Male",
+    "birthday": "2021-10-19T17:05:45.000Z",
+    "language": "Kor",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "status": true,
+    "reward": 135511
+  },
+  {
+    "id": 4,
+    "loginId": "galaxy@glocalizeinc.com",
+    "userFirstName": "shin",
+    "userMiddleName": "woo",
+    "userLastName": "ju",
+    "gender": "Male",
+    "birthday": "2021-10-19T17:05:45.000Z",
+    "language": "Kor",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "status": true,
+    "reward": 1123435
+  },
+  {
+    "id": 5,
+    "loginId": "melody@glocalizeinc.com",
+    "userFirstName": "son",
+    "userMiddleName": "myeong",
+    "userLastName": "hui",
+    "gender": "FeMale",
+    "birthday": "2021-10-19T17:05:45.000Z",
+    "language": "Kor",
+    "dateOfCreated": "2021-10-19T17:05:45.000Z",
+    "status": true,
+    "reward": 1848499
+  }
+]
