@@ -41,7 +41,7 @@ const ClientTable = ({ client }: Iprops) => {
       </RegDate>
       <Details>
         {typeof client.id === 'number' ? (
-          <DetailBtn id={client.id} />
+          <DetailBtn id={client.id} uri="client" />
         ) : (
           client.details
         )}

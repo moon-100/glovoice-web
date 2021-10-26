@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import FilterBtn from 'components/Filter/FilterBtn';
 import Nav from 'components/Nav/Nav';
 import { useHistory } from 'react-router';
-// import { BASE_URL, SEARCH_CLIENT } from 'config';
-import { SEARCH_CLIENT } from 'config';
+import { BASE_URL, SEARCH_CLIENT } from 'config';
 import ClientTable from './ClientTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
@@ -51,6 +50,9 @@ const ClientList = () => {
       remarks: '',
       pwInit: '',
       dateOfCreated: '',
+      dateOfUpdated: '',
+      password: '',
+      role: '',
       details: '',
       delete: '',
     },
@@ -58,34 +60,31 @@ const ClientList = () => {
 
   const history = useHistory();
 
-  // mockdata 테스트
+  // server 통신
   useEffect(() => {
-    fetch('/data/clientList.json')
+    fetch(
+      `${BASE_URL}/client?page=1&sort=${clientPagesFilter}&order=${clientRegistFilter}`,
+    )
       .then((res) => res.json())
-      .then((res) => setClientList(res));
+      .then((res) => setClientList(res.client));
   }, []);
 
-  // server 통신
-  // useEffect(() => {
-  //   fetch(`${BASE_URL}/client?page=1&sort=${clientPagesFilter}&order=${clientRegistFilter}`)
-  //     .then((res) => res.json())
-  //     .then((res) => setClientList(res));
-  // }, []);
-
   const searchClient = () => {
-    fetch(`${SEARCH_CLIENT}?loginId=${search}`)
+    fetch(`${SEARCH_CLIENT}?clientName=${search}&loginId=${search}`)
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        setClientList(res);
+      });
   };
 
   useEffect(() => {
-    // fetch(
-    //   `${BASE_URL}/client?page=1&sort=${clientPagesFilter}&order=${clientRegistFilter}`,
-    // )
-    //   .then((res) => res.json())
-    //   .then((res) => setClientList(res));
-    console.log('test');
-  }, [clientRegistFilter, clientPagesFilter]);
+    fetch(
+      `${BASE_URL}/client?page=1&sort=${clientPagesFilter}&order=${clientRegistFilter}`,
+    )
+      .then((res) => res.json())
+      .then((res) => setClientList(res.client));
+  }, [clientPagesFilter, clientRegistFilter]);
 
   return (
     <>
@@ -97,7 +96,7 @@ const ClientList = () => {
               <NoticeText>
                 - You can register or delete client account.
               </NoticeText>
-              <NoticeText>- Initial password is *1234!</NoticeText>
+              <NoticeText>- Initial password is *1234a!</NoticeText>
             </NoticeTextBox>
             <NewClientBtn
               onClick={() => {
@@ -166,6 +165,8 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-left: 292px;
+  height: 100vh;
+  overflow-y: auto;
 `;
 
 const ClientListContainer = styled.div`

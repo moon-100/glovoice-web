@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { DELETE_CLIENT, DUPLICATE_CHECK, PASSWORD_INIT, SIGN_UP } from 'config';
+import {
+  BASE_URL,
+  DELETE_CLIENT,
+  DUPLICATE_CHECK,
+  PASSWORD_INIT,
+  SIGN_UP,
+} from 'config';
 import { useHistory, useParams } from 'react-router';
 import Nav from 'components/Nav/Nav';
 
@@ -30,16 +36,19 @@ const ClientDetail = () => {
   const { id }: paramsType = useParams();
 
   useEffect(() => {
-    fetch(`/data/clientList${id}.json`)
+    fetch(`${BASE_URL}/client/${id}`)
       .then((res) => res.json())
       .then((res) => {
         setClientDetail(res);
+        setClientName(res.clientName);
+        setRemarks(res.remarks);
       });
   }, []);
 
   const duplicateCheck = () => {
     fetch(`${DUPLICATE_CHECK}`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ loginId }),
     })
       .then((res) => res.json())
@@ -55,25 +64,38 @@ const ClientDetail = () => {
 
   const passwordInit = () => {
     fetch(`${PASSWORD_INIT}`, {
-      method: 'POST',
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id }),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        console.log(res);
+        history.push('/clientList');
+      });
   };
 
   const deleteClient = () => {
     fetch(`${DELETE_CLIENT}/${id}`, { method: 'DELETE' })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        if (res.Message === 'SUCCESS') {
+          alert('Delete complete.');
+          history.push('/clientList');
+        } else {
+          alert('Delete failed');
+        }
+      });
   };
 
   const newClient = () => {
     fetch(`${SIGN_UP}`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         loginId,
         clientName,
+        password: '*1234a!',
         remarks,
       }),
     })
@@ -81,6 +103,23 @@ const ClientDetail = () => {
       .then((res) => {
         if (res.error === 'Conflict') {
           setRequired(true);
+        }
+      });
+  };
+
+  const clientUpdate = () => {
+    fetch(`${BASE_URL}/client/update/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clientName, remarks }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.Message === 'SUCCESS') {
+          alert('Update complete.');
+          history.push('/clientList');
+        } else {
+          alert('Update failed');
         }
       });
   };
@@ -171,10 +210,12 @@ const ClientDetail = () => {
             <PwContainer>
               <PwHeader>Password</PwHeader>
               <PwContent>
-                <PwText>Initial password is *1234!</PwText>
-                <PasswordInitBtn onClick={() => passwordInit()}>
-                  INITIALIZE PASSWORD
-                </PasswordInitBtn>
+                <PwText>Initial password is *1234a!</PwText>
+                {id !== '0' && (
+                  <PasswordInitBtn onClick={() => passwordInit()}>
+                    INITIALIZE PASSWORD
+                  </PasswordInitBtn>
+                )}
               </PwContent>
             </PwContainer>
           </InfoContainer>
@@ -196,7 +237,11 @@ const ClientDetail = () => {
                   DELETE ACCOUNT
                 </DelBtn>
               )}
-              <SaveBtn onClick={() => newClient()}>SAVE</SaveBtn>
+              {id === '0' ? (
+                <SaveBtn onClick={() => newClient()}>SAVE</SaveBtn>
+              ) : (
+                <SaveBtn onClick={() => clientUpdate()}>SAVE</SaveBtn>
+              )}
             </DelSaveBtn>
           </BtnContainer>
         </ClientDetailContainer>
@@ -209,6 +254,8 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-left: 292px;
+  height: 100vh;
+  overflow-y: auto;
 `;
 
 const ClientDetailContainer = styled.div`
