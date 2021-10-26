@@ -95,86 +95,100 @@ const SourcingManageList = () => {
     <>
       <Nav pageName="crowdFileList" />
       <Container>
-        <NoticeBox>
-          <NoticeTextBox>
-            <NoticeText>- You can check progress of uploaded file.</NoticeText>
-            <NoticeText>
-              - You can designate a client to uploaded file.
-            </NoticeText>
-          </NoticeTextBox>
-          <NewUploadBtn
-          // onClick={() => {
-          //   setPage('UploadFile');
-          // }}
-          >
-            Upload File
-          </NewUploadBtn>
-        </NoticeBox>
-        <SearchBox>
-          <SearchTextBox>
-            <SearchHeader>Search</SearchHeader>
-            <SearchText>
-              *Search criteria depends on admin’s system time zone.
-            </SearchText>
-          </SearchTextBox>
-          <SearchInputBox>
-            <SearchInput
-              type="text"
-              placeholder="Enter title of the file or remarks."
+        <SourcingManageContainer>
+          <NoticeBox>
+            <NoticeTextBox>
+              <NoticeText>
+                - You can check progress of uploaded file.
+              </NoticeText>
+              <NoticeText>
+                - You can designate a client to uploaded file.
+              </NoticeText>
+            </NoticeTextBox>
+            <NewUploadBtn
+            // onClick={() => {
+            //   setPage('UploadFile');
+            // }}
+            >
+              Upload File
+            </NewUploadBtn>
+          </NoticeBox>
+          <SearchBox>
+            <SearchTextBox>
+              <SearchHeader>Search</SearchHeader>
+              <SearchText>
+                *Search criteria depends on admin’s system time zone.
+              </SearchText>
+            </SearchTextBox>
+            <SearchInputBox>
+              <SearchInput
+                type="text"
+                placeholder="Enter title of the file or remarks."
+              />
+              <SearchIcon />
+            </SearchInputBox>
+          </SearchBox>
+          <FilterContainer>
+            <FilterBtn
+              selectedFilter={sourcingManageUploadFilter}
+              conditions={uploadStatus}
+              widthValue={90}
+              setFilter={setSourcingManageUploadFilter}
+              filterName="test"
             />
-            <SearchIcon />
-          </SearchInputBox>
-        </SearchBox>
-        <FilterContainer>
-          <FilterBtn
-            selectedFilter={sourcingManageUploadFilter}
-            conditions={uploadStatus}
-            widthValue={90}
-            setFilter={setSourcingManageUploadFilter}
-            filterName="test"
-          />
-          <FilterBtn
-            selectedFilter={sourcingManagePostFilter}
-            conditions={postStatus}
-            widthValue={70}
-            setFilter={setSourcingManagePostFilter}
-            filterName="test"
-          />
-          <FilterBtn
-            selectedFilter={sourcingManageRegistFilter}
-            conditions={regist}
-            widthValue={205}
-            setFilter={setSourcingManageRegistFilter}
-            filterName="test"
-          />
-          <FilterBtn
-            selectedFilter={sourcingManagePagesFilter}
-            conditions={pages}
-            widthValue={30}
-            setFilter={setSourcingManagePagesFilter}
-            filterName="test"
-          />
-        </FilterContainer>
-        <TableContainer>
-          <TableHeader>
-            <SourcingManageTable
-              sourcingManageTable={sourcingManageTableHeader}
+            <FilterBtn
+              selectedFilter={sourcingManagePostFilter}
+              conditions={postStatus}
+              widthValue={70}
+              setFilter={setSourcingManagePostFilter}
+              filterName="test"
             />
-          </TableHeader>
-          <TableContents>
-            <SourcingManageTable
-              sourcingManageTable={sourcingManageTableContent}
+            <FilterBtn
+              selectedFilter={sourcingManageRegistFilter}
+              conditions={regist}
+              widthValue={205}
+              setFilter={setSourcingManageRegistFilter}
+              filterName="test"
             />
-          </TableContents>
-        </TableContainer>
+            <FilterBtn
+              selectedFilter={sourcingManagePagesFilter}
+              conditions={pages}
+              widthValue={30}
+              setFilter={setSourcingManagePagesFilter}
+              filterName="test"
+            />
+          </FilterContainer>
+          <TableContainer>
+            <TableHeader>
+              <SourcingManageTable
+                sourcingManageTable={sourcingManageTableHeader}
+              />
+            </TableHeader>
+            <TableContents>
+              <SourcingManageTable
+                sourcingManageTable={sourcingManageTableContent}
+              />
+            </TableContents>
+          </TableContainer>
+        </SourcingManageContainer>
       </Container>
     </>
   );
 };
 
 const Container = styled.div`
+  display: flex;
+  justify-content: center;
   margin-left: 292px;
-  padding: 20px 10px 0px 20px;
+  height: 100vh;
+  overflow-y: auto;
+`;
+
+const SourcingManageContainer = styled.div`
+  max-width: 1020px;
+  width: 100%;
+  min-height: 100vmax;
+  margin-top: 64px;
 `;
 
 const NoticeBox = styled.div`

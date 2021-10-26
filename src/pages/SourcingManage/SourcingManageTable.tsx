@@ -37,7 +37,7 @@ const SourcingManageTable = ({ sourcingManageTable }: Iprops) => {
       <PostStatus>{sourcingManageTable.PostStatus}</PostStatus>
       <Detail>
         {typeof sourcingManageTable.Num === 'number' ? (
-          <DetailBtn id={sourcingManageTable.Num} />
+          <DetailBtn id={sourcingManageTable.Num} uri="crowdFile" />
         ) : (
           sourcingManageTable.Detail
         )}
