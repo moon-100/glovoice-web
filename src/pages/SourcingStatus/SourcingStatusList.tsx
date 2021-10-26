@@ -93,79 +93,93 @@ const SourcingStatusList = () => {
     <>
       <Nav pageName="crowdStatusList" />
       <Container>
-        <NoticeBox>
-          <NoticeTextBox>
-            <NoticeText>- You can check progress of uploaded file.</NoticeText>
-            <NoticeText>
-              - You can designate a client to uploaded file.
-            </NoticeText>
-          </NoticeTextBox>
-        </NoticeBox>
-        <SearchBox>
-          <SearchTextBox>
-            <SearchHeader>Search</SearchHeader>
-            <SearchText>
-              *Search criteria depends on admin’s system time zone.
-            </SearchText>
-          </SearchTextBox>
-          <SearchInputBox>
-            <SearchInput
-              type="text"
-              placeholder="Enter title of the file or remarks."
+        <SourcingStatusContainer>
+          <NoticeBox>
+            <NoticeTextBox>
+              <NoticeText>
+                - You can check progress of uploaded file.
+              </NoticeText>
+              <NoticeText>
+                - You can designate a client to uploaded file.
+              </NoticeText>
+            </NoticeTextBox>
+          </NoticeBox>
+          <SearchBox>
+            <SearchTextBox>
+              <SearchHeader>Search</SearchHeader>
+              <SearchText>
+                *Search criteria depends on admin’s system time zone.
+              </SearchText>
+            </SearchTextBox>
+            <SearchInputBox>
+              <SearchInput
+                type="text"
+                placeholder="Enter title of the file or remarks."
+              />
+              <SearchIcon />
+            </SearchInputBox>
+          </SearchBox>
+          <FilterContainer>
+            <FilterBtn
+              selectedFilter={sourcingStatusUploadFilter}
+              conditions={uploadStatus}
+              widthValue={90}
+              setFilter={setSourcingStatusUploadFilter}
+              filterName="test"
             />
-            <SearchIcon />
-          </SearchInputBox>
-        </SearchBox>
-        <FilterContainer>
-          <FilterBtn
-            selectedFilter={sourcingStatusUploadFilter}
-            conditions={uploadStatus}
-            widthValue={90}
-            setFilter={setSourcingStatusUploadFilter}
-            filterName="test"
-          />
-          <FilterBtn
-            selectedFilter={sourcingStatusPostFilter}
-            conditions={postStatus}
-            widthValue={70}
-            setFilter={setSourcingStatusPostFilter}
-            filterName="test"
-          />
-          <FilterBtn
-            selectedFilter={sourcingStatusRegistFilter}
-            conditions={regist}
-            widthValue={205}
-            setFilter={setSourcingStatusRegistFilter}
-            filterName="test"
-          />
-          <FilterBtn
-            selectedFilter={sourcingStatusPagesFilter}
-            conditions={pages}
-            widthValue={30}
-            setFilter={setSourcingStatusPagesFilter}
-            filterName="test"
-          />
-        </FilterContainer>
-        <TableContainer>
-          <TableHeader>
-            <SourcingStatusTable
-              sourcingStatusTable={sourcingStatusTableHeader}
+            <FilterBtn
+              selectedFilter={sourcingStatusPostFilter}
+              conditions={postStatus}
+              widthValue={70}
+              setFilter={setSourcingStatusPostFilter}
+              filterName="test"
             />
-          </TableHeader>
-          <TableContents>
-            <SourcingStatusTable
-              sourcingStatusTable={sourcingStatusTableContent}
+            <FilterBtn
+              selectedFilter={sourcingStatusRegistFilter}
+              conditions={regist}
+              widthValue={205}
+              setFilter={setSourcingStatusRegistFilter}
+              filterName="test"
             />
-          </TableContents>
-        </TableContainer>
+            <FilterBtn
+              selectedFilter={sourcingStatusPagesFilter}
+              conditions={pages}
+              widthValue={30}
+              setFilter={setSourcingStatusPagesFilter}
+              filterName="test"
+            />
+          </FilterContainer>
+          <TableContainer>
+            <TableHeader>
+              <SourcingStatusTable
+                sourcingStatusTable={sourcingStatusTableHeader}
+              />
+            </TableHeader>
+            <TableContents>
+              <SourcingStatusTable
+                sourcingStatusTable={sourcingStatusTableContent}
+              />
+            </TableContents>
+          </TableContainer>
+        </SourcingStatusContainer>
       </Container>
     </>
   );
 };
 
 const Container = styled.div`
-  margin: 60px 0 0 200px;
-  padding: 20px 10px 0px 20px;
+  display: flex;
+  justify-content: center;
+  margin-left: 292px;
+  height: 100vh;
+  overflow-y: auto;
+`;
+
+const SourcingStatusContainer = styled.div`
+  max-width: 1020px;
+  width: 100%;
+  min-height: 100vmax;
+  margin-top: 64px;
 `;
 
 const NoticeBox = styled.div`

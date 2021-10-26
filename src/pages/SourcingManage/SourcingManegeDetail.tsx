@@ -110,8 +110,10 @@ const SourcingManegeDetail = ({ sourcingManageId }: Iprops) => {
 };
 
 const Container = styled.div`
-  margin: 60px 0 0 200px;
-  padding: 10px 20px 20px 20px;
+  display: flex;
+  justify-content: center;
+  margin-left: 292px;
+  height: 100vh;
   overflow-y: auto;
 `;
 

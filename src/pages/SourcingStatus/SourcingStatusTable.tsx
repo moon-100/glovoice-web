@@ -45,7 +45,7 @@ const SourcingStatusTable = ({ sourcingStatusTable }: Iprops) => {
       )}
       <Detail>
         {typeof sourcingStatusTable.Num === 'number' ? (
-          <DetailBtn id={sourcingStatusTable.Num} />
+          <DetailBtn id={sourcingStatusTable.Num} uri="crowdStatus" />
         ) : (
           sourcingStatusTable.Detail
         )}
