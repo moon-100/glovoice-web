@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "activity": "Review",
+    "activityDetail": "Reject",
+    "itemInfo": "Lorem Ipsum is simply Lorem Ipsum is simply tasdas Lorem Ipsum is simply Lore",
+    "latestUpdate": "Feb 01 2021 10:53:00 am KST"
+  },
+  {
+    "id": 2,
+    "activity": "Review",
+    "activityDetail": "Done",
+    "itemInfo": "Lorem Ipsum is simply Lorem Ipsum is simply tasdas Lorem Ipsum is simply Lore",
+    "latestUpdate": "Feb 01 2021 10:53:00 am KST"
+  },
+  {
+    "id": 3,
+    "activity": "Record",
+    "activityDetail": "Skip",
+    "itemInfo": "Lorem Ipsum is simply Lorem Ipsum is simply tasdas Lorem Ipsum is simply Lore",
+    "latestUpdate": "Feb 01 2021 10:53:00 am KST"
+  },
+  {
+    "id": 4,
+    "activity": "Review",
+    "activityDetail": "Reject",
+    "itemInfo": "Lorem Ipsum is simply Lorem Ipsum is simply tasdas Lorem Ipsum is simply Lore",
+    "latestUpdate": "Feb 01 2021 10:53:00 am KST"
+  },
+  {
+    "id": 5,
+    "activity": "Record",
+    "activityDetail": "Comfirm",
+    "itemInfo": "Lorem Ipsum is simply Lorem Ipsum is simply tasdas Lorem Ipsum is simply Lore",
+    "latestUpdate": "Feb 01 2021 10:53:00 am KST"
+  },
+  {
+    "id": 6,
+    "activity": "Review",
+    "activityDetail": "Reject",
+    "itemInfo": "Lorem Ipsum is simply Lorem Ipsum is simply tasdas Lorem Ipsum is simply Lore",
+    "latestUpdate": "Feb 01 2021 10:53:00 am KST"
+  },
+  {
+    "id": 7,
+    "activity": "Review",
+    "activityDetail": "Comfirm",
+    "itemInfo": "Lorem Ipsum is simply Lorem Ipsum is simply tasdas Lorem Ipsum is simply Lore",
+    "latestUpdate": "Feb 01 2021 10:53:00 am KST"
+  }
+]

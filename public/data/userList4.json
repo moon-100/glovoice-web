@@ -1,0 +1,13 @@
+{
+  "id": 4,
+  "loginId": "galaxy@glocalizeinc.com",
+  "userFirstName": "shin",
+  "userMiddleName": "woo",
+  "userLastName": "ju",
+  "gender": "Male",
+  "birthday": "2021-10-19T17:05:45.000Z",
+  "language": "Kor",
+  "dateOfCreated": "2021-10-19T17:05:45.000Z",
+  "status": true,
+  "reward": 1123435
+}

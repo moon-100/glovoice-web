@@ -9,7 +9,8 @@ interface Iprops {
 const PwInitBtn = ({ id }: Iprops) => {
   const passwordInit = () => {
     fetch(`${PASSWORD_INIT}`, {
-      method: 'POST',
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id }),
     })
       .then((res) => res.json())

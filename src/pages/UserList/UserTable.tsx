@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import DetailBtn from 'components/Button/DetailBtn';
-import { ArrowIosDownwardOutline } from '@styled-icons/evaicons-outline/ArrowIosDownwardOutline';
-import { ArrowIosUpwardOutline } from '@styled-icons/evaicons-outline/ArrowIosUpwardOutline';
+import { BASE_URL } from 'config';
 
 interface Iprops {
-  userTable: {
-    Num: string | number;
-    Id: string;
-    FirstName: string;
-    MiddleName: string;
-    LastName: string;
-    Gender: string;
-    Birthday: string;
-    Language: string;
-    RegDate?: string;
-    Detail?: string;
-    Status?: string | boolean;
+  user: {
+    id: string | number;
+    loginId: string;
+    userFirstName: string;
+    userMiddleName: string;
+    userLastName: string;
+    gender: string;
+    birthday: string;
+    language: string;
+    dateOfCreated?: string;
+    detail?: string;
+    status?: string | boolean;
   };
 }
 
-const UserTable = ({ userTable }: Iprops) => {
+const UserTable = ({ user }: Iprops) => {
   const [activeWindow, setActiveWindow] = useState(false);
 
   const clickWindowHandler = () => {
@@ -29,53 +28,77 @@ const UserTable = ({ userTable }: Iprops) => {
 
   const conditionHandler = (value: boolean) => {
     if (value) {
-      console.log('활성화');
+      fetch(`${BASE_URL}/user/status/${user.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application.json' },
+        body: JSON.stringify({ id: user.id, status: true }),
+      })
+        .then((res) => res.json())
+        .then((res) => console.log(res));
     } else {
-      console.log('비활성화');
+      fetch(`${BASE_URL}/user/status/${user.id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application.json' },
+        body: JSON.stringify({ id: user.id, status: false }),
+      })
+        .then((res) => res.json())
+        .then((res) => console.log(res));
     }
   };
 
   return (
     <>
-      <Num>{userTable.Num}</Num>
-      <Id>{userTable.Id}</Id>
-      <FirstName>{userTable.FirstName}</FirstName>
-      <MiddleName>{userTable.MiddleName}</MiddleName>
-      <LastName>{userTable.LastName}</LastName>
-      <Gender>{userTable.Gender}</Gender>
-      <Birthday>{userTable.Birthday}</Birthday>
-      <Language>{userTable.Language}</Language>
-      <RegDate>{userTable.RegDate}</RegDate>
+      <Num>{user.id}</Num>
+      <Id>{user.loginId}</Id>
+      <FirstName>{user.userFirstName}</FirstName>
+      <MiddleName>{user.userMiddleName}</MiddleName>
+      <LastName>{user.userLastName}</LastName>
+      <Gender>{user.gender}</Gender>
+      <Birthday>
+        {typeof user.dateOfCreated === 'string'
+          ? user.birthday.substr(0, 10)
+          : '-'}
+      </Birthday>
+      <Language>{user.language}</Language>
+      <RegDate>
+        {typeof user.dateOfCreated === 'string'
+          ? user.dateOfCreated.substr(0, 10)
+          : '-'}
+      </RegDate>
       <Detail>
-        {typeof userTable.Num === 'number' ? (
-          <DetailBtn id={userTable.Num} />
+        {typeof user.id === 'number' ? (
+          <DetailBtn id={user.id} uri="user" />
         ) : (
-          userTable.Detail
+          user.detail
         )}
       </Detail>
-      {typeof userTable.Status === 'boolean' ? (
+      {typeof user.status === 'boolean' ? (
         <Status>
-          <FilterBox>
+          <FilterBox activeWindow={activeWindow}>
             <FilterTextBox onClick={clickWindowHandler}>
-              {userTable.Status ? (
-                <ActiveText>Activated</ActiveText>
+              {user.status ? (
+                <ActiveText activeWindow={activeWindow}>Activated</ActiveText>
               ) : (
-                <DeactiveText>Deactivated</DeactiveText>
+                <DeactiveText activeWindow={activeWindow}>
+                  Deactivated
+                </DeactiveText>
               )}
-              {activeWindow ? <ArrowUpIcon /> : <ArrowDownIcon />}
+              {activeWindow ? (
+                <ArrowUpIcon alt="arrowUpIcon" src="/images/arrowUpIcon.png" />
+              ) : (
+                <ArrowDownIcon
+                  alt="arrowDownIcon"
+                  src="/images/arrowDownIcon.png"
+                />
+              )}
             </FilterTextBox>
             {activeWindow && (
               <FilterNavBox>
-                <FilterNav
-                  onClick={() => conditionHandler(true)}
-                  style={{ color: 'blue', fontWeight: 'bold' }}
-                >
+                <FilterDefault onClick={clickWindowHandler} />
+                <FilterNav onClick={() => conditionHandler(true)}>
                   Activated
                 </FilterNav>
-                <FilterNav
-                  onClick={() => conditionHandler(false)}
-                  style={{ color: 'red', fontWeight: 'bold' }}
-                >
+                <FilterNav onClick={() => conditionHandler(false)}>
                   Deactivated
                 </FilterNav>
               </FilterNavBox>
@@ -83,123 +106,207 @@ const UserTable = ({ userTable }: Iprops) => {
           </FilterBox>
         </Status>
       ) : (
-        <Status>{userTable.Status}</Status>
+        <Status>{user.status}</Status>
       )}
     </>
   );
 };
 
 const Num = styled.li`
-  width: 5%;
-  margin-right: 15px;
+  width: 26px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Id = styled.li`
-  width: 8%;
+  width: 120px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const FirstName = styled.li`
-  width: 10%;
+  width: 88px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const MiddleName = styled.li`
-  width: 12%;
+  width: 88px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const LastName = styled.li`
-  width: 10%;
+  width: 88px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Gender = styled.li`
-  width: 5%;
+  width: 88px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
+  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Birthday = styled.li`
-  width: 10%;
+  width: 88px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Language = styled.li`
-  width: 10%;
+  width: 72px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const RegDate = styled.li`
-  width: 12%;
+  width: 112px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Detail = styled.li`
-  width: 5%;
+  width: 54px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Status = styled.li`
-  display: flex;
-  justify-content: center;
-  width: 13%;
+  width: 92px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
+  text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
-const FilterBox = styled.div`
+const FilterBox = styled.div<{ activeWindow: boolean }>`
   position: absolute;
   display: flex;
-  flex-direction: column;
-  margin-right: 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 92px;
+  height: 30px;
   margin-top: -15px;
+  border-radius: 4px;
+
+  ${({ activeWindow }) => !activeWindow && `border: solid 1px #aaa;`}
 `;
 
 const FilterTextBox = styled.div`
   display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 8px;
   align-items: center;
-  height: 30px;
-  border: 1px solid rgb(220, 220, 220);
+  background-color: #fff;
 `;
 
-const ActiveText = styled.div`
-  padding: 5px;
-  color: blue;
-  font-size: 13px;
-  font-weight: bold;
+const ActiveText = styled.div<{ activeWindow: boolean }>`
+  font-family: SpoqaHanSans;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.35px;
+  color: #1a61f7;
+
+  ${({ activeWindow }) => activeWindow && `color: #ccc;`}
 `;
 
-const DeactiveText = styled.div`
-  padding: 5px;
-  color: red;
-  font-size: 13px;
-  font-weight: bold;
+const DeactiveText = styled.div<{ activeWindow: boolean }>`
+  width: 60px;
+  height: 14px;
+  font-family: SpoqaHanSans;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.35px;
+  color: #e44646;
+
+  ${({ activeWindow }) => activeWindow && `color: #ccc;`}
+`;
+
+const ArrowUpIcon = styled.img`
+  width: 12px;
+`;
+
+const ArrowDownIcon = styled.img`
+  width: 12px;
 `;
 
 const FilterNavBox = styled.div`
   position: absolute;
-  top: 30px;
+  top: 0;
   left: 0;
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: white;
+  border-radius: 4px;
+  border: solid 1px #666;
+  overflow: hidden;
+  z-index: 10001;
+`;
+
+const FilterDefault = styled.div`
+  height: 30px;
 `;
 
 const FilterNav = styled.div`
@@ -207,19 +314,18 @@ const FilterNav = styled.div`
   align-items: center;
   height: 30px;
   margin-top: -1px;
-  padding: 5px;
-  border: 1px solid rgb(220, 220, 220);
-  font-size: 13px;
-`;
+  padding: 8px;
+  border-top: 1px solid rgb(220, 220, 220);
+  font-family: SpoqaHanSans;
+  font-size: 10px;
+  line-height: 1.5;
+  letter-spacing: 0.21px;
+  background-color: white;
 
-const ArrowDownIcon = styled(ArrowIosDownwardOutline)`
-  width: 15px;
-  margin: 0 10px;
-`;
-
-const ArrowUpIcon = styled(ArrowIosUpwardOutline)`
-  width: 15px;
-  margin: 0 10px;
+  :hover {
+    background-color: #3880f7;
+    color: #fff;
+  }
 `;
 
 export default UserTable;

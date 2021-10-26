@@ -8,6 +8,7 @@ import SourcingStatusList from 'pages/SourcingStatus/SourcingStatusList';
 import ClientDetail from 'pages/ClientList/ClientDetail';
 import UserDetail from 'pages/UserList/UserDetail';
 import SourcingManegeDetail from 'pages/SourcingManage/SourcingManegeDetail';
+import SourcingStatusDetail from 'pages/SourcingStatus/SourcingStatusDetail';
 
 const Routes = () => {
   return (
@@ -19,12 +20,9 @@ const Routes = () => {
         <Route exact path="/crowdFileList" component={SourcingManageList} />
         <Route exact path="/crowdStatusList" component={SourcingStatusList} />
         <Route exact path="/client/:id" component={ClientDetail} />
-        <Route exact path="/userDetail/:id" component={UserDetail} />
-        <Route
-          exact
-          path="/crowdFileDetail/:id"
-          component={SourcingManegeDetail}
-        />
+        <Route exact path="/user/:id" component={UserDetail} />
+        <Route exact path="/crowdFile/:id" component={SourcingManegeDetail} />
+        <Route exact path="/crowdStatus/:id" component={SourcingStatusDetail} />
       </Switch>
     </BrowserRouter>
   );
