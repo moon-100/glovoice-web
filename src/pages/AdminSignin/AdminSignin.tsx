@@ -22,9 +22,10 @@ const AdminSignin = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.token) {
-          localStorage.setItem('client-token', res.token);
-          history.push('/main');
+        console.log(res);
+        if (res.clientWithToken) {
+          localStorage.setItem('client-token', res.clientWithToken.accessToken);
+          history.push('/clientList');
         } else {
           alert(`Please check your account.`);
           setLoginError(true);
