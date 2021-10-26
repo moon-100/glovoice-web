@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router';
 import { SIGN_IN } from 'config';
-import { Auto } from '@styled-icons/crypto';
 
 interface loginErrorType {
   readonly loginError?: boolean;
