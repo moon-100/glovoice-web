@@ -69,8 +69,7 @@ const ClientDetail = () => {
       body: JSON.stringify({ id }),
     })
       .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
+      .then(() => {
         history.push('/clientList');
       });
   };
@@ -108,8 +107,8 @@ const ClientDetail = () => {
   };
 
   const clientUpdate = () => {
-    fetch(`${BASE_URL}/client/update/${id}`, {
-      method: 'PUT',
+    fetch(`${BASE_URL}/client/${id}/update`, {
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ clientName, remarks }),
     })

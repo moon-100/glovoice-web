@@ -20,9 +20,45 @@ interface Iprops {
     languages: string;
     detail?: string;
   };
+  userList: {
+    id: number;
+    loginId: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    gender: string;
+    dateOfCreated: string;
+    dateOfUpdated: string;
+    status: string;
+    birthday: string;
+    password: string;
+    role: string;
+    languages: string;
+    detail: string;
+  }[];
+  setUserList: React.Dispatch<
+    React.SetStateAction<
+      {
+        id: number;
+        loginId: string;
+        firstName: string;
+        middleName: string;
+        lastName: string;
+        gender: string;
+        dateOfCreated: string;
+        dateOfUpdated: string;
+        status: string;
+        birthday: string;
+        password: string;
+        role: string;
+        languages: string;
+        detail: string;
+      }[]
+    >
+  >;
 }
 
-const UserTable = ({ user }: Iprops) => {
+const UserTable = ({ user, userList, setUserList }: Iprops) => {
   const [activeWindow, setActiveWindow] = useState(false);
 
   const clickWindowHandler = () => {
@@ -32,20 +68,24 @@ const UserTable = ({ user }: Iprops) => {
   const conditionHandler = (value: boolean) => {
     if (value) {
       fetch(`${BASE_URL}/user/${user.id}`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application.json' },
         body: JSON.stringify({ status: true }),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res));
+        .then(() => {
+          setUserList(userList);
+        });
     } else {
       fetch(`${BASE_URL}/user/${user.id}`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: { 'Content-Type': 'application.json' },
         body: JSON.stringify({ status: false }),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res));
+        .then(() => {
+          setUserList(userList);
+        });
     }
   };
 

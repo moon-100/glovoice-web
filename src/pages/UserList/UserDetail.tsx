@@ -78,19 +78,31 @@ const ClientDetail = () => {
   const history = useHistory();
   const { id }: paramsType = useParams();
 
+  // server 에서 데이터 받아옴
+  useEffect(() => {
+    fetch(`${BASE_URL}/user/${id}`)
+      .then((res) => res.json())
+      .then((res) => {
+        setUserDetail(res);
+      });
+  }, []);
+
+  // 목데이터
   useEffect(() => {
     fetch(`/data/userList${id}.json`)
       .then((res) => res.json())
       .then((res) => {
         setUserDetail(res);
-        setPage(10);
       });
   }, []);
 
   useEffect(() => {
     fetch(`/data/userDetailList.json`)
       .then((res) => res.json())
-      .then((res) => setUserDetailLists(res));
+      .then((res) => {
+        setUserDetailLists(res.user);
+        setPage(res.count);
+      });
   }, []);
 
   const clickWindowHandler = () => {
@@ -105,7 +117,7 @@ const ClientDetail = () => {
         body: JSON.stringify({ status: true }),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res));
+        .then(() => setUserDetail(userDetail));
     } else {
       fetch(`${BASE_URL}/user/${userDetail.id}`, {
         method: 'POST',
@@ -113,7 +125,7 @@ const ClientDetail = () => {
         body: JSON.stringify({ status: false }),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res));
+        .then(() => setUserDetail(userDetail));
     }
   };
 
@@ -287,7 +299,7 @@ const ClientDetail = () => {
           <PaginationContainer>
             {page > 1 && (
               <Stack spacing={2}>
-                <TestComponent
+                <PaginationComponent
                   count={page}
                   showFirstButton
                   showLastButton
@@ -313,7 +325,7 @@ const PaginationContainer = styled.div`
   padding-bottom: 70px;
 `;
 
-const TestComponent = styled(Pagination)`
+const PaginationComponent = styled(Pagination)`
   display: flex;
   justify-content: space-between;
   align-items: center;

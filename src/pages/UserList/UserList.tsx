@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import FilterBtn from 'components/Filter/FilterBtn';
 import Nav from 'components/Nav/Nav';
-import { SEARCH_USER } from 'config';
+import { BASE_URL, SEARCH_USER } from 'config';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import UserTable from './UserTable';
@@ -25,14 +25,14 @@ const userTableHeader = {
 // filter 종류
 interface conditionsType {
   [key: string]: string;
-  All: string;
-  Activated: string;
-  Deactivated: string;
+  all: string;
+  true: string;
+  false: string;
 }
 const conditions: conditionsType = {
-  All: `All`,
-  Activated: `Activated user`,
-  Deactivated: `Deactivated user`,
+  all: `All`,
+  true: `Activated user`,
+  false: `Deactivated user`,
 };
 interface registType {
   [key: string]: string;
@@ -53,7 +53,7 @@ const pages: {
 } = { '10': 10, '15': 15, '20': 20, '30': 30, '50': 50 };
 
 const UserList = () => {
-  const [userActiveFilter, setUserActiveFilter] = useState('All');
+  const [userActiveFilter, setUserActiveFilter] = useState('all');
   const [userRegistFilter, setUserRegistFilter] = useState('asc');
   const [userPagesFilter, setUserPagesFilter] = useState('15');
   const [search, setSearch] = useState('');
@@ -77,29 +77,36 @@ const UserList = () => {
     },
   ]);
 
-  // mockdata 테스트
+  // 서버와 통신
   useEffect(() => {
-    fetch('/data/userList.json')
+    if (userActiveFilter === 'all') {
+      fetch(
+        `${BASE_URL}/user?page=${page}&sort=${userPagesFilter}&order=${userRegistFilter}`,
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          setUserList(res.user);
+          setPage(Math.ceil(res.count / parseInt(userPagesFilter, 10)));
+        });
+    } else {
+      fetch(
+        `${BASE_URL}/user?page=${page}&sort=${userPagesFilter}&order=${userRegistFilter}&status=${userActiveFilter}`,
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          setUserList(res.user);
+          setPage(Math.ceil(res.count / parseInt(userPagesFilter, 10)));
+        });
+    }
+  }, [userActiveFilter, userRegistFilter, userPagesFilter, page]);
+
+  const searchUser = () => {
+    fetch(`${SEARCH_USER}?loginId=${search}`)
       .then((res) => res.json())
       .then((res) => {
         setUserList(res.user);
         setPage(Math.ceil(res.count / parseInt(userPagesFilter, 10)));
       });
-  }, []);
-
-  // 서버와 통신
-  // useEffect(() => {
-  //   fetch(
-  //     `${BASE_URL}/client?page=${page}&sort=${userPagesFilter}&order=${userRegistFilter}&all=${userActiveFilter}`,
-  //   )
-  //     .then((res) => res.json())
-  //     .then((res) => setUserList(res.user));
-  // }, [userActiveFilter, userRegistFilter, userPagesFilter, page]);
-
-  const searchUser = () => {
-    fetch(`${SEARCH_USER}?userName=${search}&loginId=${search}`)
-      .then((res) => res.json())
-      .then((res) => setUserList(res));
   };
 
   return (
@@ -160,13 +167,21 @@ const UserList = () => {
           </SearchFilterContainer>
           <TableContainer>
             <TableHeader>
-              <UserTable user={userTableHeader} />
+              <UserTable
+                user={userTableHeader}
+                userList={userList}
+                setUserList={setUserList}
+              />
             </TableHeader>
             {userList &&
               userList.map((user) => {
                 return (
                   <TableContents key={user.id}>
-                    <UserTable user={user} />
+                    <UserTable
+                      user={user}
+                      userList={userList}
+                      setUserList={setUserList}
+                    />
                   </TableContents>
                 );
               })}
@@ -174,7 +189,7 @@ const UserList = () => {
           <PaginationContainer>
             {page > 1 && (
               <Stack spacing={2}>
-                <TestComponent
+                <PaginationComponent
                   count={page}
                   showFirstButton
                   showLastButton
@@ -190,33 +205,6 @@ const UserList = () => {
     </>
   );
 };
-
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  margin-top: 44px;
-`;
-
-const TestComponent = styled(Pagination)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
-    background-color: white;
-    border-radius: 4px;
-    width: 24px;
-    height: 24px;
-    border: solid 1px #ccc;
-    padding: 0;
-  }
-
-  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
-    min-width: 24px;
-  }
-`;
 
 const Container = styled.div`
   display: flex;
@@ -348,6 +336,33 @@ const TableContents = styled.ul`
   display: flex;
   align-items: center;
   height: 56px;
+`;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 44px;
+`;
+
+const PaginationComponent = styled(Pagination)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background-color: white;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    border: solid 1px #ccc;
+    padding: 0;
+  }
+
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+    min-width: 24px;
+  }
 `;
 
 export default UserList;
