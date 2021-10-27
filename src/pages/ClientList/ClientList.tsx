@@ -4,6 +4,8 @@ import FilterBtn from 'components/Filter/FilterBtn';
 import Nav from 'components/Nav/Nav';
 import { useHistory } from 'react-router';
 import { BASE_URL, SEARCH_CLIENT } from 'config';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import ClientTable from './ClientTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
@@ -42,6 +44,7 @@ const ClientList = () => {
   const [clientRegistFilter, setCilentRegistFilter] = useState('asc');
   const [clientPagesFilter, setClientPagesFilter] = useState('15');
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
   const [clientList, setClientList] = useState([
     {
       id: '',
@@ -66,15 +69,18 @@ const ClientList = () => {
       `${BASE_URL}/client?page=1&sort=${clientPagesFilter}&order=${clientRegistFilter}`,
     )
       .then((res) => res.json())
-      .then((res) => setClientList(res.client));
+      .then((res) => {
+        setClientList(res.client);
+        setPage(Math.ceil(res.count / parseInt(clientPagesFilter, 10)));
+      });
   }, []);
 
   const searchClient = () => {
     fetch(`${SEARCH_CLIENT}?clientName=${search}&loginId=${search}`)
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
-        setClientList(res);
+        setClientList(res.client);
+        setPage(Math.ceil(res.count / parseInt(clientPagesFilter, 10)));
       });
   };
 
@@ -83,7 +89,10 @@ const ClientList = () => {
       `${BASE_URL}/client?page=1&sort=${clientPagesFilter}&order=${clientRegistFilter}`,
     )
       .then((res) => res.json())
-      .then((res) => setClientList(res.client));
+      .then((res) => {
+        setClientList(res.client);
+        setPage(Math.ceil(res.count / parseInt(clientPagesFilter, 10)));
+      });
   }, [clientPagesFilter, clientRegistFilter]);
 
   return (
@@ -155,6 +164,20 @@ const ClientList = () => {
                 );
               })}
           </TableContainer>
+          <PaginationContainer>
+            {page > 1 && (
+              <Stack spacing={2}>
+                <PaginationComponent
+                  count={page}
+                  showFirstButton
+                  showLastButton
+                  onClick={(e: any) =>
+                    setPage(parseInt(e.target.textContent, 10))
+                  }
+                />
+              </Stack>
+            )}
+          </PaginationContainer>
         </ClientListContainer>
       </Container>
     </>
@@ -307,6 +330,33 @@ const TableContents = styled.ul`
   display: flex;
   align-items: center;
   height: 56px;
+`;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 44px;
+`;
+
+const PaginationComponent = styled(Pagination)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background-color: white;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    border: solid 1px #ccc;
+    padding: 0;
+  }
+
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+    min-width: 24px;
+  }
 `;
 
 export default ClientList;
