@@ -1,9 +1,9 @@
 import Nav from "components/Nav/Nav";
 import Container from './styled/container';
+import { useHistory } from 'react-router-dom';
 
 type Props = {
   nav: boolean;
-  pageName: string;
   styles?: any;
   children: React.ReactNode;
 }
@@ -43,9 +43,10 @@ interface AdminLayout extends IProps {
  *              nav가 필요하지 않으면 nav에 false줘서 안보이게 처리 (default = true)
  */
 const Layout = (props: Props) => {
+  const history = useHistory();
   return (
     <>
-      {props.nav ? <Nav pageName={props.pageName} /> : ''}
+      {props.nav ? <Nav pageName={history.location.pathname} /> : ''}
       <Container style={props.styles}>
         {props.children}
       </Container>
