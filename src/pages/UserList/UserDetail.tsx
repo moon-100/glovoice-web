@@ -4,6 +4,8 @@ import { useHistory, useParams } from 'react-router';
 import Nav from 'components/Nav/Nav';
 import FilterBtn from 'components/Filter/FilterBtn';
 import { BASE_URL } from 'config';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import UserDetailTable from './UserDetailTable';
 
 interface paramsType {
@@ -52,19 +54,22 @@ const ClientDetail = () => {
   const [userHistoryPagesFilter, setUserHistoryPagesFilter] = useState('15');
   const [userActivityFilter, setUserActivityFilter] = useState('all');
   const [activeWindow, setActiveWindow] = useState(false);
+  const [page, setPage] = useState(1);
   const [userDetail, setUserDetail] = useState({
     id: 0,
     loginId: '',
-    userFirstName: '',
-    userMiddleName: '',
-    userLastName: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
     gender: '',
-    birthday: '',
-    language: '',
     dateOfCreated: '',
-    detail: '',
+    dateOfUpdated: '',
     status: false,
-    reward: 0,
+    birthday: '',
+    password: '',
+    role: '',
+    languages: '',
+    detail: '',
   });
   const [userDetailLists, setUserDetailLists] = useState([
     { id: 0, activity: '', activityDetail: '', itemInfo: '', latestUpdate: '' },
@@ -78,6 +83,7 @@ const ClientDetail = () => {
       .then((res) => res.json())
       .then((res) => {
         setUserDetail(res);
+        setPage(10);
       });
   }, []);
 
@@ -91,29 +97,26 @@ const ClientDetail = () => {
     setActiveWindow(!activeWindow);
   };
 
-  /// ////test
-
   const conditionHandler = (value: boolean) => {
     if (value) {
-      fetch(`${BASE_URL}/user/status/${userDetail.id}`, {
+      fetch(`${BASE_URL}/user/${userDetail.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application.json' },
-        body: JSON.stringify({ id: userDetail.id, status: true }),
+        body: JSON.stringify({ status: true }),
       })
         .then((res) => res.json())
         .then((res) => console.log(res));
     } else {
-      fetch(`${BASE_URL}/user/status/${userDetail.id}`, {
+      fetch(`${BASE_URL}/user/${userDetail.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application.json' },
-        body: JSON.stringify({ id: userDetail.id, status: false }),
+        body: JSON.stringify({ status: false }),
       })
         .then((res) => res.json())
         .then((res) => console.log(res));
     }
   };
 
-  /// /////////
   return (
     <>
       <Nav pageName="userList" />
@@ -129,7 +132,7 @@ const ClientDetail = () => {
               <FirstNameHeader>First Name</FirstNameHeader>
               <FirstNameInput
                 type="text"
-                value={userDetail.userFirstName}
+                value={userDetail.firstName}
                 disabled
               />
             </FirstNameContainer>
@@ -137,17 +140,13 @@ const ClientDetail = () => {
               <MiddleNameHeader>Middle Name</MiddleNameHeader>
               <MiddleNameInput
                 type="text"
-                value={userDetail.userMiddleName}
+                value={userDetail.middleName}
                 disabled
               />
             </MiddleNameContainer>
             <LastNameContainer>
               <LastNameHeader>Last Name</LastNameHeader>
-              <LastNameInput
-                type="text"
-                value={userDetail.userLastName}
-                disabled
-              />
+              <LastNameInput type="text" value={userDetail.lastName} disabled />
             </LastNameContainer>
             <GenderContainer>
               <GenderHeader>Gender</GenderHeader>
@@ -164,7 +163,7 @@ const ClientDetail = () => {
             <LanguageContainer>
               <LanguageHeader>Native Language</LanguageHeader>
               <LanguageContent>
-                <LanguageText>{userDetail.language}</LanguageText>
+                <LanguageText>{userDetail.languages}</LanguageText>
                 <LanguageIcon
                   alt="arrowDownIcon"
                   src="/images/arrowDownIcon.png"
@@ -233,9 +232,7 @@ const ClientDetail = () => {
             </UserIdContainer>
             <RewardContainer>
               <RewardHeader>Reward</RewardHeader>
-              <RewardText>
-                {userDetail.reward.toLocaleString()} Point
-              </RewardText>
+              <RewardText>{(1123452).toLocaleString()} Point</RewardText>
             </RewardContainer>
           </UserStatusContainer>
           <UserHistoryContainer>
@@ -287,11 +284,53 @@ const ClientDetail = () => {
                 );
               })}
           </TableContainer>
+          <PaginationContainer>
+            {page > 1 && (
+              <Stack spacing={2}>
+                <TestComponent
+                  count={page}
+                  showFirstButton
+                  showLastButton
+                  onClick={(e: any) =>
+                    setPage(parseInt(e.target.textContent, 10))
+                  }
+                />
+              </Stack>
+            )}
+          </PaginationContainer>
         </UserDetailContainer>
       </Container>
     </>
   );
 };
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 44px;
+  padding-bottom: 70px;
+`;
+
+const TestComponent = styled(Pagination)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background-color: white;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    border: solid 1px #ccc;
+    padding: 0;
+  }
+
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+    min-width: 24px;
+  }
+`;
 
 const Container = styled.div`
   display: flex;
@@ -485,7 +524,7 @@ const MaleBtn = styled.button<{ gender: string }>`
   letter-spacing: 0.25px;
 
   ${({ gender }) =>
-    gender === 'Male'
+    gender === 'MALE'
       ? `border: none;
      background-color: #1a61f7;   
      font-weight: bold; 
@@ -508,7 +547,7 @@ const FemaleBtn = styled.button<{ gender: string }>`
   letter-spacing: 0.25px;
 
   ${({ gender }) =>
-    gender === 'Female'
+    gender === 'FEMALE'
       ? `border: none;
      background-color: #1a61f7;   
      font-weight: bold; 
@@ -531,7 +570,7 @@ const OthersBtn = styled.button<{ gender: string }>`
   letter-spacing: 0.25px;
 
   ${({ gender }) =>
-    gender === 'Other'
+    gender === 'OTHER'
       ? `border: none;
      background-color: #1a61f7;   
      font-weight: bold; 

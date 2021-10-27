@@ -7,15 +7,18 @@ interface Iprops {
   user: {
     id: string | number;
     loginId: string;
-    userFirstName: string;
-    userMiddleName: string;
-    userLastName: string;
+    firstName?: string;
+    middleName?: string;
+    lastName?: string;
     gender: string;
-    birthday: string;
-    language: string;
     dateOfCreated?: string;
+    dateOfUpdated?: string;
+    status: string | boolean;
+    birthday?: string;
+    password?: string;
+    role?: string;
+    languages: string;
     detail?: string;
-    status?: string | boolean;
   };
 }
 
@@ -28,18 +31,18 @@ const UserTable = ({ user }: Iprops) => {
 
   const conditionHandler = (value: boolean) => {
     if (value) {
-      fetch(`${BASE_URL}/user/status/${user.id}`, {
+      fetch(`${BASE_URL}/user/${user.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application.json' },
-        body: JSON.stringify({ id: user.id, status: true }),
+        body: JSON.stringify({ status: true }),
       })
         .then((res) => res.json())
         .then((res) => console.log(res));
     } else {
-      fetch(`${BASE_URL}/user/status/${user.id}`, {
+      fetch(`${BASE_URL}/user/${user.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application.json' },
-        body: JSON.stringify({ id: user.id, status: false }),
+        body: JSON.stringify({ status: false }),
       })
         .then((res) => res.json())
         .then((res) => console.log(res));
@@ -50,16 +53,14 @@ const UserTable = ({ user }: Iprops) => {
     <>
       <Num>{user.id}</Num>
       <Id>{user.loginId}</Id>
-      <FirstName>{user.userFirstName}</FirstName>
-      <MiddleName>{user.userMiddleName}</MiddleName>
-      <LastName>{user.userLastName}</LastName>
+      <FirstName>{user.firstName}</FirstName>
+      <MiddleName>{user.middleName ? user.middleName : '-'}</MiddleName>
+      <LastName>{user.lastName}</LastName>
       <Gender>{user.gender}</Gender>
       <Birthday>
-        {typeof user.dateOfCreated === 'string'
-          ? user.birthday.substr(0, 10)
-          : '-'}
+        {typeof user.birthday === 'string' ? user.birthday.substr(0, 10) : '-'}
       </Birthday>
-      <Language>{user.language}</Language>
+      <Language>{user.languages}</Language>
       <RegDate>
         {typeof user.dateOfCreated === 'string'
           ? user.dateOfCreated.substr(0, 10)

@@ -3,21 +3,23 @@ import styled from 'styled-components';
 import FilterBtn from 'components/Filter/FilterBtn';
 import Nav from 'components/Nav/Nav';
 import { SEARCH_USER } from 'config';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import UserTable from './UserTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
 const userTableHeader = {
   id: `No.`,
   loginId: `Id`,
-  userFirstName: `First Name`,
-  userMiddleName: `Middle Name`,
-  userLastName: `Last Name`,
+  firstName: `First Name`,
+  middleName: `Middle Name`,
+  lastName: `Last Name`,
   gender: `Gender`,
-  birthday: `Birthday`,
-  language: `Language`,
   dateOfCreated: `Registered Date`,
-  detail: `Detail`,
   status: `Status`,
+  birthday: `Birthday`,
+  languages: `Language`,
+  detail: `Detail`,
 };
 
 // filter 종류
@@ -55,19 +57,23 @@ const UserList = () => {
   const [userRegistFilter, setUserRegistFilter] = useState('asc');
   const [userPagesFilter, setUserPagesFilter] = useState('15');
   const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
   const [userList, setUserList] = useState([
     {
       id: 0,
       loginId: '',
-      userFirstName: '',
-      userMiddleName: '',
-      userLastName: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
       gender: '',
-      birthday: '',
-      language: '',
       dateOfCreated: '',
-      detail: '',
+      dateOfUpdated: '',
       status: '',
+      birthday: '',
+      password: '',
+      role: '',
+      languages: '',
+      detail: '',
     },
   ]);
 
@@ -75,13 +81,25 @@ const UserList = () => {
   useEffect(() => {
     fetch('/data/userList.json')
       .then((res) => res.json())
-      .then((res) => setUserList(res));
+      .then((res) => {
+        setUserList(res.user);
+        setPage(Math.ceil(res.count / parseInt(userPagesFilter, 10)));
+      });
   }, []);
 
+  // 서버와 통신
+  // useEffect(() => {
+  //   fetch(
+  //     `${BASE_URL}/client?page=${page}&sort=${userPagesFilter}&order=${userRegistFilter}&all=${userActiveFilter}`,
+  //   )
+  //     .then((res) => res.json())
+  //     .then((res) => setUserList(res.user));
+  // }, [userActiveFilter, userRegistFilter, userPagesFilter, page]);
+
   const searchUser = () => {
-    fetch(`${SEARCH_USER}?loginId=${search}`)
+    fetch(`${SEARCH_USER}?userName=${search}&loginId=${search}`)
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => setUserList(res));
   };
 
   return (
@@ -153,11 +171,52 @@ const UserList = () => {
                 );
               })}
           </TableContainer>
+          <PaginationContainer>
+            {page > 1 && (
+              <Stack spacing={2}>
+                <TestComponent
+                  count={page}
+                  showFirstButton
+                  showLastButton
+                  onClick={(e: any) =>
+                    setPage(parseInt(e.target.textContent, 10))
+                  }
+                />
+              </Stack>
+            )}
+          </PaginationContainer>
         </UserListContainer>
       </Container>
     </>
   );
 };
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 44px;
+`;
+
+const TestComponent = styled(Pagination)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    background-color: white;
+    border-radius: 4px;
+    width: 24px;
+    height: 24px;
+    border: solid 1px #ccc;
+    padding: 0;
+  }
+
+  .css-yuzg60-MuiButtonBase-root-MuiPaginationItem-root {
+    min-width: 24px;
+  }
+`;
 
 const Container = styled.div`
   display: flex;
