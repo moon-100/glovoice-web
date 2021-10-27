@@ -1,13 +1,15 @@
 {
   "id": 2,
-  "loginId": "hope@glocalizeinc.com",
-  "userFirstName": "kim",
-  "userMiddleName": "jang",
-  "userLastName": "ho",
-  "gender": "Male",
-  "birthday": "2021-10-19T17:05:45.000Z",
-  "language": "Kor",
-  "dateOfCreated": "2021-10-19T17:05:45.000Z",
+  "loginId": "wooju2",
+  "firstName": "jangho",
+  "middleName": null,
+  "lastName": "kim",
+  "gender": "MALE",
+  "dateOfCreated": "2021-01-21T00:00:00.000Z",
+  "dateOdUpdated": "2021-01-11T00:00:00.000Z",
   "status": true,
-  "reward": 1232341
+  "birthday": "1994-03-02",
+  "password": "qwe123",
+  "role": "ADMIN",
+  "languages": "KO"
 }
