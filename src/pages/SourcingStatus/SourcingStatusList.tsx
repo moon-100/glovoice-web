@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { SearchAlt2 } from '@styled-icons/boxicons-regular/SearchAlt2';
 import FilterBtn from 'components/Filter/FilterBtn';
 import Nav from 'components/Nav/Nav';
 import SourcingStatusTable from './SourcingStatusTable';
@@ -104,51 +103,51 @@ const SourcingStatusList = () => {
               </NoticeText>
             </NoticeTextBox>
           </NoticeBox>
-          <SearchBox>
-            <SearchTextBox>
+          <SearchFilterContainer>
+            <SearchContainer>
               <SearchHeader>Search</SearchHeader>
+              <SearchInputBox>
+                <SearchInput
+                  type="text"
+                  placeholder="Enter title of the file or remarks."
+                />
+                <SearchIcon alt="searchIcon" src="/images/searchIcon.png" />
+              </SearchInputBox>
               <SearchText>
                 *Search criteria depends on admin’s system time zone.
               </SearchText>
-            </SearchTextBox>
-            <SearchInputBox>
-              <SearchInput
-                type="text"
-                placeholder="Enter title of the file or remarks."
+            </SearchContainer>
+            <FilterContainer>
+              <FilterBtn
+                selectedFilter={sourcingStatusUploadFilter}
+                conditions={uploadStatus}
+                widthValue={102}
+                setFilter={setSourcingStatusUploadFilter}
+                filterName="Upload status"
               />
-              <SearchIcon />
-            </SearchInputBox>
-          </SearchBox>
-          <FilterContainer>
-            <FilterBtn
-              selectedFilter={sourcingStatusUploadFilter}
-              conditions={uploadStatus}
-              widthValue={90}
-              setFilter={setSourcingStatusUploadFilter}
-              filterName="test"
-            />
-            <FilterBtn
-              selectedFilter={sourcingStatusPostFilter}
-              conditions={postStatus}
-              widthValue={70}
-              setFilter={setSourcingStatusPostFilter}
-              filterName="test"
-            />
-            <FilterBtn
-              selectedFilter={sourcingStatusRegistFilter}
-              conditions={regist}
-              widthValue={205}
-              setFilter={setSourcingStatusRegistFilter}
-              filterName="test"
-            />
-            <FilterBtn
-              selectedFilter={sourcingStatusPagesFilter}
-              conditions={pages}
-              widthValue={30}
-              setFilter={setSourcingStatusPagesFilter}
-              filterName="test"
-            />
-          </FilterContainer>
+              <FilterBtn
+                selectedFilter={sourcingStatusPostFilter}
+                conditions={postStatus}
+                widthValue={102}
+                setFilter={setSourcingStatusPostFilter}
+                filterName="Post status"
+              />
+              <FilterBtn
+                selectedFilter={sourcingStatusRegistFilter}
+                conditions={regist}
+                widthValue={188}
+                setFilter={setSourcingStatusRegistFilter}
+                filterName="Sort by"
+              />
+              <FilterBtn
+                selectedFilter={sourcingStatusPagesFilter}
+                conditions={pages}
+                widthValue={80}
+                setFilter={setSourcingStatusPagesFilter}
+                filterName="Page"
+              />
+            </FilterContainer>
+          </SearchFilterContainer>
           <TableContainer>
             <TableHeader>
               <SourcingStatusTable
@@ -186,53 +185,89 @@ const NoticeBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
-  padding: 10px;
-  border: 2px solid rgb(220, 220, 220);
-  border-radius: 10px;
+  height: 96px;
+  padding: 24px 16px;
+  border-radius: 8px;
+  background-color: #e9eef8;
 `;
 
 const NoticeTextBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 100%;
+  justify-content: space-between;
+  height: 48px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
 `;
 
-const NoticeText = styled.div``;
+const NoticeText = styled.div`
+  font-family: SpoqaHanSans;
+  font-size: 16px;
+`;
 
-const SearchBox = styled.div`
+const SearchFilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: 20px 10px;
+  margin-top: 44px;
 `;
 
-const SearchTextBox = styled.div`
+const SearchContainer = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 92px;
 `;
 
 const SearchHeader = styled.div`
-  height: 40px;
-  line-height: 40px;
-  padding-right: 10px;
-  border-right: 1px solid black;
-  font-size: 20px;
+  height: 20px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.43;
+  letter-spacing: 0.15px;
+`;
+
+const SearchInputBox = styled.div`
+  position: relative;
+  margin-top: 8px;
+`;
+
+const SearchInput = styled.input`
+  width: 336px;
+  height: 42px;
+  padding: 8px 6px 8px 8px;
+  border-radius: 4px;
+  border: solid 1px #aaa;
+
+  ::placeholder {
+    font-family: SpoqaHanSans;
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: 0.25px;
+    color: #ccc;
+  }
+
+  :focus {
+    border: none;
+    outline: solid 1px #1a61f7;
+    background-color: #e3eaf9;
+  }
+`;
+
+const SearchIcon = styled.img`
+  position: absolute;
+  top: 9px;
+  right: 8px;
+  width: 24px;
 `;
 
 const SearchText = styled.div`
-  color: red;
-  margin-left: 10px;
-`;
-
-const SearchInputBox = styled.div``;
-
-const SearchInput = styled.input`
-  width: 250px;
-  height: 35px;
-  padding-left: 10px;
-  border: 1px solid rgb(220, 220, 220);
+  margin-top: 4px;
+  font-family: SpoqaHanSans;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
+  color: #888;
 `;
 
 const FilterContainer = styled.div`
@@ -243,27 +278,26 @@ const FilterContainer = styled.div`
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 22px;
 `;
 
 const TableHeader = styled.ul`
   display: flex;
   align-items: center;
-  padding: 20px 10px 10px 10px;
-  border-bottom: 2px solid rgb(220, 220, 220);
-  font-size: 15px;
+  height: 40px;
+  border-bottom: 2px solid #979797;
+  background-color: #f4f4f4;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
   font-weight: bold;
+  line-height: 1.43;
+  letter-spacing: 0.15px;
 `;
 
 const TableContents = styled.ul`
   display: flex;
   align-items: center;
-  padding: 10px;
-`;
-
-const SearchIcon = styled(SearchAlt2)`
-  width: 30px;
-  margin-left: 15px;
-  color: skyblue;
+  height: 56px;
 `;
 
 export default SourcingStatusList;

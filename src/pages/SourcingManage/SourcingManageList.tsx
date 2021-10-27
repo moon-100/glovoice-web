@@ -1,33 +1,32 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { SearchAlt2 } from '@styled-icons/boxicons-regular/SearchAlt2';
 import FilterBtn from 'components/Filter/FilterBtn';
 import Nav from 'components/Nav/Nav';
 import SourcingManageTable from './SourcingManageTable';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
 const sourcingManageTableHeader = {
-  Num: `No.`,
-  Title: `Title`,
-  Name: `Client Name`,
-  Size: `File size`,
-  Remarks: `Remarks`,
-  UpDate: `Uploaded date`,
-  UpStatus: `Upload status`,
-  PostStatus: `Post status`,
-  Detail: `Details`,
+  id: `No.`,
+  title: `Title`,
+  name: `Client Name`,
+  size: `File size(MB)`,
+  remarks: `Remarks`,
+  upDate: `Latest update`,
+  upStatus: `Progress`,
+  postStatus: `Post status`,
+  detail: `Details`,
 };
 
 // 서버에서 받아와야 될 데이터(이건 테스트용)
 const sourcingManageTableContent = {
-  Num: 1,
-  Title: `클라우드 소싱`,
-  Name: `클라이언트`,
-  Size: 23.1,
-  Remarks: `메모정보`,
-  UpDate: `Feb 02 2021 10:53:00 am KST`,
-  UpStatus: `완료`,
-  PostStatus: `Post`,
+  id: 1,
+  title: `클라우드 소싱`,
+  name: `클라이언트`,
+  size: 23.1,
+  remarks: `메모정보`,
+  upDate: `Feb 02 2021 10:53:00 am KST`,
+  upStatus: `완료`,
+  postStatus: `POST`,
 };
 
 // filter 종류
@@ -110,54 +109,54 @@ const SourcingManageList = () => {
             //   setPage('UploadFile');
             // }}
             >
-              Upload File
+              UPLOAD FILE
             </NewUploadBtn>
           </NoticeBox>
-          <SearchBox>
-            <SearchTextBox>
+          <SearchFilterContainer>
+            <SearchContainer>
               <SearchHeader>Search</SearchHeader>
+              <SearchInputBox>
+                <SearchInput
+                  type="text"
+                  placeholder="Enter title of the file or remarks."
+                />
+                <SearchIcon alt="searchIcon" src="/images/searchIcon.png" />
+              </SearchInputBox>
               <SearchText>
                 *Search criteria depends on admin’s system time zone.
               </SearchText>
-            </SearchTextBox>
-            <SearchInputBox>
-              <SearchInput
-                type="text"
-                placeholder="Enter title of the file or remarks."
+            </SearchContainer>
+            <FilterContainer>
+              <FilterBtn
+                selectedFilter={sourcingManageUploadFilter}
+                conditions={uploadStatus}
+                widthValue={120}
+                setFilter={setSourcingManageUploadFilter}
+                filterName="Upload status"
               />
-              <SearchIcon />
-            </SearchInputBox>
-          </SearchBox>
-          <FilterContainer>
-            <FilterBtn
-              selectedFilter={sourcingManageUploadFilter}
-              conditions={uploadStatus}
-              widthValue={90}
-              setFilter={setSourcingManageUploadFilter}
-              filterName="test"
-            />
-            <FilterBtn
-              selectedFilter={sourcingManagePostFilter}
-              conditions={postStatus}
-              widthValue={70}
-              setFilter={setSourcingManagePostFilter}
-              filterName="test"
-            />
-            <FilterBtn
-              selectedFilter={sourcingManageRegistFilter}
-              conditions={regist}
-              widthValue={205}
-              setFilter={setSourcingManageRegistFilter}
-              filterName="test"
-            />
-            <FilterBtn
-              selectedFilter={sourcingManagePagesFilter}
-              conditions={pages}
-              widthValue={30}
-              setFilter={setSourcingManagePagesFilter}
-              filterName="test"
-            />
-          </FilterContainer>
+              <FilterBtn
+                selectedFilter={sourcingManagePostFilter}
+                conditions={postStatus}
+                widthValue={120}
+                setFilter={setSourcingManagePostFilter}
+                filterName="Post"
+              />
+              <FilterBtn
+                selectedFilter={sourcingManageRegistFilter}
+                conditions={regist}
+                widthValue={188}
+                setFilter={setSourcingManageRegistFilter}
+                filterName="Sort by"
+              />
+              <FilterBtn
+                selectedFilter={sourcingManagePagesFilter}
+                conditions={pages}
+                widthValue={80}
+                setFilter={setSourcingManagePagesFilter}
+                filterName="Page"
+              />
+            </FilterContainer>
+          </SearchFilterContainer>
           <TableContainer>
             <TableHeader>
               <SourcingManageTable
@@ -195,61 +194,104 @@ const NoticeBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
-  padding: 10px;
-  border: 2px solid rgb(220, 220, 220);
-  border-radius: 10px;
+  height: 96px;
+  padding: 24px 16px;
+  border-radius: 8px;
+  background-color: #e9eef8;
 `;
 
 const NoticeTextBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  height: 100%;
+  justify-content: space-between;
+  height: 48px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
 `;
 
-const NoticeText = styled.div``;
+const NoticeText = styled.div`
+  font-family: SpoqaHanSans;
+  font-size: 16px;
+`;
 
 const NewUploadBtn = styled.button`
-  height: 40px;
-  color: white;
-  background-color: ${({ theme }) => theme.color.yellow};
+  width: 200px;
+  height: 48px;
+  padding: 12px 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 24px;
+  background-color: #1a61f7;
+  font-family: SpoqaHanSans;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.7;
+  letter-spacing: 1.25px;
+  color: white;
 `;
 
-const SearchBox = styled.div`
+const SearchFilterContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: 20px 10px;
+  margin-top: 44px;
 `;
 
-const SearchTextBox = styled.div`
+const SearchContainer = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 92px;
 `;
 
 const SearchHeader = styled.div`
-  height: 40px;
-  line-height: 40px;
-  padding-right: 10px;
-  border-right: 1px solid black;
-  font-size: 20px;
+  height: 20px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.43;
+  letter-spacing: 0.15px;
+`;
+
+const SearchInputBox = styled.div`
+  position: relative;
+  margin-top: 8px;
+`;
+
+const SearchInput = styled.input`
+  width: 336px;
+  height: 42px;
+  padding: 8px 6px 8px 8px;
+  border-radius: 4px;
+  border: solid 1px #aaa;
+
+  ::placeholder {
+    font-family: SpoqaHanSans;
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: 0.25px;
+    color: #ccc;
+  }
+
+  :focus {
+    border: none;
+    outline: solid 1px #1a61f7;
+    background-color: #e3eaf9;
+  }
+`;
+
+const SearchIcon = styled.img`
+  position: absolute;
+  top: 9px;
+  right: 8px;
+  width: 24px;
 `;
 
 const SearchText = styled.div`
-  color: red;
-  margin-left: 10px;
-`;
-
-const SearchInputBox = styled.div``;
-
-const SearchInput = styled.input`
-  width: 250px;
-  height: 35px;
-  padding-left: 10px;
-  border: 1px solid rgb(220, 220, 220);
+  margin-top: 4px;
+  font-family: SpoqaHanSans;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
+  color: #888;
 `;
 
 const FilterContainer = styled.div`
@@ -260,27 +302,26 @@ const FilterContainer = styled.div`
 const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 22px;
 `;
 
 const TableHeader = styled.ul`
   display: flex;
   align-items: center;
-  padding: 20px 10px 10px 10px;
-  border-bottom: 2px solid rgb(220, 220, 220);
-  font-size: 15px;
+  height: 40px;
+  border-bottom: 2px solid #979797;
+  background-color: #f4f4f4;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
   font-weight: bold;
+  line-height: 1.43;
+  letter-spacing: 0.15px;
 `;
 
 const TableContents = styled.ul`
   display: flex;
   align-items: center;
-  padding: 10px;
-`;
-
-const SearchIcon = styled(SearchAlt2)`
-  width: 30px;
-  margin-left: 15px;
-  color: skyblue;
+  height: 56px;
 `;
 
 export default SourcingManageList;
