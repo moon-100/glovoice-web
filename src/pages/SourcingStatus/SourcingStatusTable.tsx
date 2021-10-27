@@ -37,9 +37,9 @@ const SourcingStatusTable = ({ sourcingStatusTable }: Iprops) => {
       ) : (
         <PostStatus>
           {sourcingStatusTable.PostStatus ? (
-            <Posted>Posted</Posted>
+            <Posted>Post</Posted>
           ) : (
-            <Hidden>Hidden</Hidden>
+            <Hidden>Hide</Hidden>
           )}
         </PostStatus>
       )}
@@ -55,50 +55,79 @@ const SourcingStatusTable = ({ sourcingStatusTable }: Iprops) => {
 };
 
 const Num = styled.li`
-  width: 5%;
-  margin-right: 15px;
+  width: 32px;
+  margin-left: 8px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Title = styled.li`
-  width: 15%;
+  width: 240px;
+  margin-left: 14px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Name = styled.li`
-  width: 15%;
-  text-align: center;
+  width: 144px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const LastUp = styled.li`
-  width: 25%;
-  text-align: center;
+  width: 144px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Progress = styled.li`
-  width: 10%;
-  text-align: center;
+  width: 96px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const Status = styled.li`
-  width: 10%;
-  text-align: center;
+  width: 104px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
 
 const PostStatus = styled.li`
-  width: 10%;
-  text-align: center;
+  width: 80px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -112,7 +141,12 @@ const Hidden = styled.span`
 `;
 
 const Detail = styled.li`
-  width: 10%;
+  width: 54px;
+  margin-left: 16px;
+  font-family: SpoqaHanSans;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.25px;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;

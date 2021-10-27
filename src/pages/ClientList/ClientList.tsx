@@ -195,6 +195,7 @@ const Container = styled.div`
 const ClientListContainer = styled.div`
   max-width: 1020px;
   width: 100%;
+  min-height: 100vmax;
   margin-top: 64px;
 `;
 
