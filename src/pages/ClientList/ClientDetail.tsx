@@ -35,8 +35,11 @@ const ClientDetail = () => {
   const history = useHistory();
   const { id }: paramsType = useParams();
 
+  const getToken: any = { Authorization: localStorage.getItem('admin-token') };
   useEffect(() => {
-    fetch(`${BASE_URL}/client/${id}`)
+    fetch(`${BASE_URL}/client/${id}`, {
+      headers: getToken,
+    })
       .then((res) => res.json())
       .then((res) => {
         setClientDetail(res);
@@ -48,7 +51,7 @@ const ClientDetail = () => {
   const duplicateCheck = () => {
     fetch(`${DUPLICATE_CHECK}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', getToken },
       body: JSON.stringify({ loginId }),
     })
       .then((res) => res.json())
@@ -65,7 +68,7 @@ const ClientDetail = () => {
   const passwordInit = () => {
     fetch(`${PASSWORD_INIT}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', getToken },
       body: JSON.stringify({ id }),
     })
       .then((res) => res.json())
@@ -75,7 +78,7 @@ const ClientDetail = () => {
   };
 
   const deleteClient = () => {
-    fetch(`${DELETE_CLIENT}/${id}`, { method: 'DELETE' })
+    fetch(`${DELETE_CLIENT}/${id}`, { method: 'DELETE', headers: getToken })
       .then((res) => res.json())
       .then((res) => {
         if (res.Message === 'SUCCESS') {
@@ -109,7 +112,7 @@ const ClientDetail = () => {
   const clientUpdate = () => {
     fetch(`${BASE_URL}/client/${id}/update`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', getToken },
       body: JSON.stringify({ clientName, remarks }),
     })
       .then((res) => res.json())

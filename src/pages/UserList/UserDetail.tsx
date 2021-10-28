@@ -79,17 +79,11 @@ const ClientDetail = () => {
   const { id }: paramsType = useParams();
 
   // server 에서 데이터 받아옴
+  const getToken: any = { Authorization: localStorage.getItem('admin-token') };
   useEffect(() => {
-    fetch(`${BASE_URL}/user/${id}`)
-      .then((res) => res.json())
-      .then((res) => {
-        setUserDetail(res);
-      });
-  }, []);
-
-  // 목데이터
-  useEffect(() => {
-    fetch(`/data/userList${id}.json`)
+    fetch(`${BASE_URL}/user/${id}`, {
+      headers: getToken,
+    })
       .then((res) => res.json())
       .then((res) => {
         setUserDetail(res);
@@ -113,7 +107,7 @@ const ClientDetail = () => {
     if (value) {
       fetch(`${BASE_URL}/user/${userDetail.id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', getToken },
         body: JSON.stringify({ status: true }),
       })
         .then((res) => res.json())
@@ -121,7 +115,7 @@ const ClientDetail = () => {
     } else {
       fetch(`${BASE_URL}/user/${userDetail.id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', getToken },
         body: JSON.stringify({ status: false }),
       })
         .then((res) => res.json())

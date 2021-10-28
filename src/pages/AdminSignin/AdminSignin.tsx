@@ -24,7 +24,7 @@ const AdminSignin = () => {
       .then((res) => {
         console.log(res);
         if (res.clientWithToken) {
-          localStorage.setItem('client-token', res.clientWithToken.accessToken);
+          localStorage.setItem('admin-token', res.clientWithToken.accessToken);
           history.push('/clientList');
         } else {
           alert(`Please check your account.`);
