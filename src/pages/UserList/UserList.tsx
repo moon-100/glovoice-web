@@ -177,11 +177,7 @@ const UserList = () => {
           </SearchFilterContainer>
           <TableContainer>
             <TableHeader>
-              <UserTable
-                user={userTableHeader}
-                userList={userList}
-                setUserList={setUserList}
-              />
+              <UserTable user={userTableHeader} setUserList={setUserList} />
             </TableHeader>
             {userList &&
               userList.map((user) => {
