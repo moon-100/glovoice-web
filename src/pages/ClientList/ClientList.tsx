@@ -5,6 +5,8 @@ import Nav from 'components/Nav/Nav';
 import { useHistory } from 'react-router';
 import { BASE_URL, SEARCH_CLIENT } from 'config';
 import ClientTable from './ClientTable';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { fetchClients, selectAllClients } from 'redux/client/clientsSlice';
 
 // 공용 컴포넌트 사용을 위한 상수데이터
 const clientTableHeader = {
@@ -59,6 +61,17 @@ const ClientList = () => {
   ]);
 
   const history = useHistory();
+  
+  const dispatch = useAppDispatch();
+  const clients = useAppSelector(selectAllClients); // store에서 clients 가져오기
+
+  useEffect(() => {
+    dispatch(fetchClients());
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log(clients);
+  }, [clients]);
 
   // server 통신
   useEffect(() => {
