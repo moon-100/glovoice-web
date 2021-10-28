@@ -34,7 +34,7 @@ const AdminSignin = () => {
   };
 
   useEffect(() => {
-    if (loginId.length > 5 && password.length > 5) {
+    if (loginId.length >= 1 && password.length >= 1) {
       setActiveLogin(true);
     } else {
       setActiveLogin(false);

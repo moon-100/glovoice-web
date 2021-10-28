@@ -103,8 +103,11 @@ const ClientDetail = () => {
     })
       .then((res) => res.json())
       .then((res) => {
+        history.push('/clientList');
         if (res.error === 'Conflict') {
           setRequired(true);
+        } else {
+          history.push('/clientList');
         }
       });
   };
