@@ -187,11 +187,7 @@ const UserList = () => {
               userList.map((user) => {
                 return (
                   <TableContents key={user.id}>
-                    <UserTable
-                      user={user}
-                      userList={userList}
-                      setUserList={setUserList}
-                    />
+                    <UserTable user={user} setUserList={setUserList} />
                   </TableContents>
                 );
               })}

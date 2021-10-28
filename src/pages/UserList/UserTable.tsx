@@ -20,22 +20,6 @@ interface Iprops {
     languages: string;
     detail?: string;
   };
-  userList: {
-    id: number;
-    loginId: string;
-    firstName: string;
-    middleName: string;
-    lastName: string;
-    gender: string;
-    dateOfCreated: string;
-    dateOfUpdated: string;
-    status: string;
-    birthday: string;
-    password: string;
-    role: string;
-    languages: string;
-    detail: string;
-  }[];
   setUserList: React.Dispatch<
     React.SetStateAction<
       {
@@ -58,7 +42,7 @@ interface Iprops {
   >;
 }
 
-const UserTable = ({ user, userList, setUserList }: Iprops) => {
+const UserTable = ({ user, setUserList }: Iprops) => {
   const [activeWindow, setActiveWindow] = useState(false);
 
   const clickWindowHandler = () => {
@@ -75,7 +59,7 @@ const UserTable = ({ user, userList, setUserList }: Iprops) => {
       })
         .then((res) => res.json())
         .then(() => {
-          setUserList(userList);
+          setUserList((prev) => ({ ...prev, status: true }));
         });
     } else {
       fetch(`${BASE_URL}/user/${user.id}`, {
@@ -85,7 +69,7 @@ const UserTable = ({ user, userList, setUserList }: Iprops) => {
       })
         .then((res) => res.json())
         .then(() => {
-          setUserList(userList);
+          setUserList((prev) => ({ ...prev, status: false }));
         });
     }
   };
