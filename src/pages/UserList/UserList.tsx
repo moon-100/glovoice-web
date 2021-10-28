@@ -58,6 +58,7 @@ const UserList = () => {
   const [userPagesFilter, setUserPagesFilter] = useState('15');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [selectPage, setSelectPage] = useState(1);
   const [userList, setUserList] = useState([
     {
       id: 0,
@@ -81,7 +82,7 @@ const UserList = () => {
   useEffect(() => {
     if (userActiveFilter === 'all') {
       fetch(
-        `${BASE_URL}/user?page=${page}&sort=${userPagesFilter}&order=${userRegistFilter}`,
+        `${BASE_URL}/user?page=${selectPage}&sort=${userPagesFilter}&order=${userRegistFilter}`,
       )
         .then((res) => res.json())
         .then((res) => {
@@ -90,7 +91,7 @@ const UserList = () => {
         });
     } else {
       fetch(
-        `${BASE_URL}/user?page=${page}&sort=${userPagesFilter}&order=${userRegistFilter}&status=${userActiveFilter}`,
+        `${BASE_URL}/user?page=${selectPage}&sort=${userPagesFilter}&order=${userRegistFilter}&status=${userActiveFilter}`,
       )
         .then((res) => res.json())
         .then((res) => {
@@ -98,7 +99,7 @@ const UserList = () => {
           setPage(Math.ceil(res.count / parseInt(userPagesFilter, 10)));
         });
     }
-  }, [userActiveFilter, userRegistFilter, userPagesFilter, page]);
+  }, [userActiveFilter, userRegistFilter, userPagesFilter, selectPage]);
 
   const searchUser = () => {
     fetch(`${SEARCH_USER}?loginId=${search}`)
@@ -194,7 +195,7 @@ const UserList = () => {
                   showFirstButton
                   showLastButton
                   onClick={(e: any) =>
-                    setPage(parseInt(e.target.textContent, 10))
+                    setSelectPage(parseInt(e.target.textContent, 10))
                   }
                 />
               </Stack>
@@ -347,6 +348,7 @@ const PaginationContainer = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 44px;
+  padding-bottom: 70px;
 `;
 
 const PaginationComponent = styled(Pagination)`

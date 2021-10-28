@@ -45,6 +45,7 @@ const ClientList = () => {
   const [clientPagesFilter, setClientPagesFilter] = useState('15');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [selectPage, setSelectPage] = useState(1);
   const [clientList, setClientList] = useState([
     {
       id: '',
@@ -63,17 +64,16 @@ const ClientList = () => {
 
   const history = useHistory();
 
-  // server 통신
   useEffect(() => {
     fetch(
-      `${BASE_URL}/client?page=1&sort=${clientPagesFilter}&order=${clientRegistFilter}`,
+      `${BASE_URL}/client?page=${selectPage}&sort=${clientPagesFilter}&order=${clientRegistFilter}`,
     )
       .then((res) => res.json())
       .then((res) => {
         setClientList(res.client);
         setPage(Math.ceil(res.count / parseInt(clientPagesFilter, 10)));
       });
-  }, []);
+  }, [clientPagesFilter, clientRegistFilter, selectPage]);
 
   const searchClient = () => {
     fetch(`${SEARCH_CLIENT}?clientName=${search}&loginId=${search}`)
@@ -83,17 +83,6 @@ const ClientList = () => {
         setPage(Math.ceil(res.count / parseInt(clientPagesFilter, 10)));
       });
   };
-
-  useEffect(() => {
-    fetch(
-      `${BASE_URL}/client?page=1&sort=${clientPagesFilter}&order=${clientRegistFilter}`,
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setClientList(res.client);
-        setPage(Math.ceil(res.count / parseInt(clientPagesFilter, 10)));
-      });
-  }, [clientPagesFilter, clientRegistFilter]);
 
   return (
     <>
@@ -172,7 +161,7 @@ const ClientList = () => {
                   showFirstButton
                   showLastButton
                   onClick={(e: any) =>
-                    setPage(parseInt(e.target.textContent, 10))
+                    setSelectPage(parseInt(e.target.textContent, 10))
                   }
                 />
               </Stack>
@@ -195,8 +184,8 @@ const Container = styled.div`
 const ClientListContainer = styled.div`
   max-width: 1020px;
   width: 100%;
-  min-height: 100vmax;
-  margin-top: 64px;
+  min-height: 100%;
+  padding-top: 64px;
 `;
 
 const NoticeBox = styled.div`
@@ -339,6 +328,7 @@ const PaginationContainer = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 44px;
+  padding-bottom: 70px;
 `;
 
 const PaginationComponent = styled(Pagination)`
