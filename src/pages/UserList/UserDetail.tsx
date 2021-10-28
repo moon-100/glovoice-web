@@ -112,20 +112,20 @@ const ClientDetail = () => {
   const conditionHandler = (value: boolean) => {
     if (value) {
       fetch(`${BASE_URL}/user/${userDetail.id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application.json' },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: true }),
       })
         .then((res) => res.json())
-        .then(() => setUserDetail(userDetail));
+        .then(() => history.go(0));
     } else {
       fetch(`${BASE_URL}/user/${userDetail.id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application.json' },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: false }),
       })
         .then((res) => res.json())
-        .then(() => setUserDetail(userDetail));
+        .then(() => history.go(0));
     }
   };
 

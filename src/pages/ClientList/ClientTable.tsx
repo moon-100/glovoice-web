@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PwInitBtn from 'components/Button/PwInitBtn';
 import DetailBtn from 'components/Button/DetailBtn';
-import DeleteBtn from 'components/Button/DeleteBtn';
+import ModalPortal from 'ModalPortal';
+import DeleteModal from 'Modal/DeleteModal';
 
 interface Iprops {
   client: {
@@ -21,6 +22,8 @@ interface Iprops {
 }
 
 const ClientTable = ({ client }: Iprops) => {
+  const [deleteModal, setDeleteModal] = useState(false);
+
   return (
     <>
       <Num>{client.id}</Num>
@@ -48,9 +51,18 @@ const ClientTable = ({ client }: Iprops) => {
       </Details>
       <Delete>
         {typeof client.id === 'number' ? (
-          <DeleteBtn id={client.id} />
+          <DeleteModalBtn
+            alt="deleteBtn"
+            src="/images/trashIcon.png"
+            onClick={() => setDeleteModal(true)}
+          />
         ) : (
           client.delete
+        )}
+        {deleteModal && (
+          <ModalPortal>
+            <DeleteModal id={client.id} setModal={setDeleteModal} />
+          </ModalPortal>
         )}
       </Delete>
     </>
@@ -136,6 +148,10 @@ const Delete = styled.li`
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
+
+const DeleteModalBtn = styled.img`
+  width: 24px;
 `;
 
 export default ClientTable;

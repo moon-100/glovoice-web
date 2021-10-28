@@ -210,13 +210,15 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   margin-left: 292px;
+  height: 100vh;
+  overflow-y: auto;
 `;
 
 const UserListContainer = styled.div`
   max-width: 1020px;
   width: 100%;
-  min-height: 100vmax;
-  margin-top: 64px;
+  min-height: 100%;
+  padding-top: 64px;
 `;
 
 const NoticeBox = styled.div`
@@ -333,6 +335,7 @@ const TableHeader = styled.ul`
 `;
 
 const TableContents = styled.ul`
+  position: relative;
   display: flex;
   align-items: center;
   height: 56px;

@@ -69,7 +69,7 @@ const UserTable = ({ user, userList, setUserList }: Iprops) => {
     if (value) {
       fetch(`${BASE_URL}/user/${user.id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application.json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: true }),
       })
         .then((res) => res.json())
@@ -79,7 +79,7 @@ const UserTable = ({ user, userList, setUserList }: Iprops) => {
     } else {
       fetch(`${BASE_URL}/user/${user.id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application.json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: false }),
       })
         .then((res) => res.json())
