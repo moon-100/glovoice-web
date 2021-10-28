@@ -65,11 +65,12 @@ const UserTable = ({ user, userList, setUserList }: Iprops) => {
     setActiveWindow(!activeWindow);
   };
 
+  const getToken: any = { Authorization: localStorage.getItem('admin-token') };
   const conditionHandler = (value: boolean) => {
     if (value) {
       fetch(`${BASE_URL}/user/${user.id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', getToken },
         body: JSON.stringify({ status: true }),
       })
         .then((res) => res.json())
@@ -79,7 +80,7 @@ const UserTable = ({ user, userList, setUserList }: Iprops) => {
     } else {
       fetch(`${BASE_URL}/user/${user.id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', getToken },
         body: JSON.stringify({ status: false }),
       })
         .then((res) => res.json())

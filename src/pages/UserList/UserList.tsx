@@ -79,10 +79,14 @@ const UserList = () => {
   ]);
 
   // 서버와 통신
+  const getToken: any = { Authorization: localStorage.getItem('admin-token') };
   useEffect(() => {
     if (userActiveFilter === 'all') {
       fetch(
         `${BASE_URL}/user?page=${selectPage}&sort=${userPagesFilter}&order=${userRegistFilter}`,
+        {
+          headers: getToken,
+        },
       )
         .then((res) => res.json())
         .then((res) => {
@@ -92,6 +96,9 @@ const UserList = () => {
     } else {
       fetch(
         `${BASE_URL}/user?page=${selectPage}&sort=${userPagesFilter}&order=${userRegistFilter}&status=${userActiveFilter}`,
+        {
+          headers: getToken,
+        },
       )
         .then((res) => res.json())
         .then((res) => {
@@ -102,7 +109,9 @@ const UserList = () => {
   }, [userActiveFilter, userRegistFilter, userPagesFilter, selectPage]);
 
   const searchUser = () => {
-    fetch(`${SEARCH_USER}?loginId=${search}`)
+    fetch(`${SEARCH_USER}?loginId=${search}`, {
+      headers: getToken,
+    })
       .then((res) => res.json())
       .then((res) => {
         setUserList(res.user);

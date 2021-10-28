@@ -64,9 +64,13 @@ const ClientList = () => {
 
   const history = useHistory();
 
+  const getToken: any = { Authorization: localStorage.getItem('admin-token') };
   useEffect(() => {
     fetch(
       `${BASE_URL}/client?page=${selectPage}&sort=${clientPagesFilter}&order=${clientRegistFilter}`,
+      {
+        headers: getToken,
+      },
     )
       .then((res) => res.json())
       .then((res) => {
@@ -76,7 +80,9 @@ const ClientList = () => {
   }, [clientPagesFilter, clientRegistFilter, selectPage]);
 
   const searchClient = () => {
-    fetch(`${SEARCH_CLIENT}?clientName=${search}&loginId=${search}`)
+    fetch(`${SEARCH_CLIENT}?clientName=${search}&loginId=${search}`, {
+      headers: getToken,
+    })
       .then((res) => res.json())
       .then((res) => {
         setClientList(res.client);
